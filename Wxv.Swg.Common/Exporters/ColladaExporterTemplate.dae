@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
+  <asset>
+    <contributor>
+      <author>Wxv</author>
+      <authoring_tool>Wxv.Swg</authoring_tool>
+    </contributor>
+    <up_axis>Y_UP</up_axis>
+  </asset>
+  <library_images>
+    <image id="Image0" name="Image0">
+      <init_from>Example.png</init_from>
+    </image>
+  </library_images>
+  <library_materials>
+    <material id="Material0" name="Material0">
+      <instance_effect url="#Effect0"/>
+    </material>
+  </library_materials>
+  <library_effects>
+    <effect id="Effect0">
+      <profile_COMMON>
+        <newparam sid="Image0-surface">
+          <surface type="2D">
+            <init_from>Image0</init_from>
+            <format>A8R8G8B8</format>
+          </surface>
+        </newparam>
+        <newparam sid="Image0-sampler">
+          <sampler2D><source>Image0-surface</source></sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <emission><color>0 0 0 1</color></emission>
+            <ambient><color>0 0 0 1</color></ambient>
+            <diffuse><texture texture="Image0-sampler" texcoord="TEX0" /></diffuse>
+            <specular><color>0 0 0 1</color></specular>
+            <shininess><float>0</float></shininess>
+            <reflective><color>0 0 0 1</color></reflective>
+            <reflectivity><float>0.5</float></reflectivity>
+            <transparent opaque="RGB_ZERO"><color>0 0 0 1</color></transparent>
+            <transparency><float>1</float></transparency>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+  </library_effects>
+  <library_geometries>
+    <geometry id="meshGeometry0" name="meshGeometry0">
+      <mesh>
+        <source id="meshGeometry0-positions" name="position">
+          <float_array id="meshGeometry0-positions-array" count="798"><!--vertex position co-ordinates here (XYZ)--></float_array>
+          <technique_common>
+            <accessor source="#meshGeometry0-positions-array" count="266" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="meshGeometry0-normals" name="normal">
+          <float_array id="meshGeometry0-normals-array" count="798"><!--vertex normal co-ordinates here (XYZ)--></float_array>
+          <technique_common>
+            <accessor source="#meshGeometry0-normals-array" count="266" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="meshGeometry0-maps" name="map">
+          <float_array id="meshGeometry0-maps-array" count="646"><!--vertex texture co-ordinates here (UV/ST)--></float_array>
+          <technique_common>
+            <accessor source="#meshGeometry0-maps-array" count="323" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="meshGeometry0-vertices">
+          <input semantic="POSITION" source="#meshGeometry0-positions"/>
+        </vertices>
+        <triangles material="meshGeometry0-material" count="528">
+          <input semantic="VERTEX" source="#meshGeometry0-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#meshGeometry0-normals" offset="0"/>
+          <input semantic="TEXCOORD" source="#meshGeometry0-maps" offset="0" />
+          <p><!--triangle indexes here--></p>
+        </triangles>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_visual_scenes>
+    <visual_scene id="VisualSceneNode" name="untitled">
+      <node id="SWGMesh" name="SWGMesh" type="NODE">
+        <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+        <instance_geometry url="#meshGeometry0">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="meshGeometry0-material" target="#Material0" />
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#VisualSceneNode"/>
+  </scene>
+</COLLADA>
