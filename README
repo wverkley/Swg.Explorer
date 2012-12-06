@@ -1,25 +1,23 @@
-A simple archive (TRE file) viewer/explorer for Star Wars Galaxies.
+Swg.Explorer is a a simple archive (TRE file) viewer/explorer for Star Wars Galaxies.
 
-Requires the Microsoft XNA Framework Redistributable 4.0.
-
-Features:
-- View multiple TRE archives in a combined view
+### Features
+- View multiple TRE archives in a single combined view
 - View and preview media and data files; including EA Interchange File Format (IFF), and String Table Format (STF)
 - Extract data files
 - Export static meshes to Collada (dae) model files
 - Export string files to CSV text files
 
-Uses:
-- Be.HexEditor by Bernhard Elbl
-- DDSLib by Popescu Alexandru Cristian
-- NAudio By Mark Heath
-- SharpZipLib by the ic#code team
+### Uses
+- [Be.HexEditor](http://sourceforge.net/projects/hexbox/) by Bernhard Elbl
+- [DDSLib](http://communistgames.blogspot.co.nz/2010/12/dds-from-file-on-xna-40.html) by Popescu Alexandru Cristian
+- [NAudio](http://naudio.codeplex.com/) By Mark Heath
+- [SharpZipLib](http://www.icsharpcode.net/opensource/sharpziplib/) by the ic#code team
 
+### Credits
+- [File Formats](http://home.earthlink.net/~xunil/) by Kenneth Sewell (XUnil)
+- [TRE Explorer](http://wiki.modthegalaxy.com/TRE_Explorer) _(unofficial link)_ by Melva I'Tah
+- [SWGEMU](http://www.swgemu.com/) and its community
 
-Credits:
-- File Formats by Kenneth Sewell (XUnil)
-- TRE Explorer by Melva I'Tah
-- SWGEMU and its community
-
-
-
+### Download
+- [Binaries](https://github.com/downloads/wverkley/Swg.Explorer/Swg.Explorer.zip) _(source code available from links above)_
+- Requires the [Microsoft XNA Framework Redistributable 4.0](http://www.microsoft.com/en-us/download/details.aspx?id=20914) to be installed.
