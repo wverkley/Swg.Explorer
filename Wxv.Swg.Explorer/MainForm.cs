@@ -292,7 +292,7 @@ namespace Wxv.Swg.Explorer
         {
             this.Text =
                 Title + " - [" +
-                ((("" + DirectoryName) != "") ? DirectoryName : "Untitled")
+                ((("" + DirectoryName) != "") ? DirectoryName : "Not Loaded")
                 + "]";
         }
 
