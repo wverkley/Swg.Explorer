@@ -2,24 +2,24 @@ A simple archive (TRE file) viewer/explorer for Star Wars Galaxies.
 
 Requires the Microsoft XNA Framework Redistributable 4.0.
 
+Features:
+- View multiple TRE archives in a combined view
+- View and preview media and data files; including EA Interchange File Format (IFF), and String Table Format (STF)
+- Extract data files
+- Export static meshes to Collada (dae) model files
+- Export string files to CSV text files
+
 Uses:
-
-Be.HexEditor by Bernhard Elbl
-
-DDSLib by Popescu Alexandru Cristian
-
-NAudio By Mark Heath
-
-SharpZipLib by the ic#code team
+- Be.HexEditor by Bernhard Elbl
+- DDSLib by Popescu Alexandru Cristian
+- NAudio By Mark Heath
+- SharpZipLib by the ic#code team
 
 
 Credits:
-
-File Formats by Kenneth Sewell (XUnil)
-
-TRE Editor by Melva I'Tah
-
-SWGEMU and its community
+- File Formats by Kenneth Sewell (XUnil)
+- TRE Editor by Melva I'Tah
+- SWGEMU and its community
 
 
 
