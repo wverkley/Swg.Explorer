@@ -6,9 +6,6 @@ using System.IO;
 
 namespace Wxv.Swg.Common.Files
 {
-    /// <summary>
-    /// Shader file
-    /// </summary>
     public class ShaderFileReader : SWGFileReader<ShaderFile>
     {
         private ShaderFile Load(IFFFile iffFile)

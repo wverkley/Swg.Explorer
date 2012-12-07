@@ -16,8 +16,8 @@ namespace Wxv.Swg.Common.Files
             foreach (var node in iffFile.Root.Descendents("NODE"))
             using (var stream = new MemoryStream(node.Data))
             {
-                string @object = stream.ReadNullTerminatedString();
-                string cell = stream.ReadNullTerminatedString();
+                string @object = stream.ReadString();
+                string cell = stream.ReadString();
 
                 var matrix = new Single[3, 3];
                 var w = new Single[3];

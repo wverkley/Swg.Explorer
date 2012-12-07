@@ -25,10 +25,18 @@ namespace Wxv.Swg.Explorer.UserControls
 
             if (treInfoFile.FileType.DebugToString != null)
             {
-                using (var writer = new StringWriter())
+                try
                 {
-                    treInfoFile.FileType.DebugToString(treInfoFile.Data, writer);
-                    richTextBox.Text = writer.ToString();
+                    using (var writer = new StringWriter())
+                    {
+                        treInfoFile.FileType.DebugToString(treInfoFile.Data, writer);
+                        richTextBox.Text = writer.ToString();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex);
+                    richTextBox.Text = string.Format("Error loading Debug Information: \r\n{0}", ex);
                 }
             }
 

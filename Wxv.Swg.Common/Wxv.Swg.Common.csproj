@@ -50,6 +50,7 @@
     <Compile Include="Exporters\PngExporter.cs" />
     <Compile Include="CsvUtil.cs" />
     <Compile Include="Exporters\ColladaExporter.cs" />
+    <Compile Include="Files\SkeletonExtensions.cs" />
     <Compile Include="Files\SkeletonFileReader.cs" />
     <Compile Include="Files\SkeletonFile.cs" />
     <Compile Include="Files\DynamicMeshExtensions.cs" />

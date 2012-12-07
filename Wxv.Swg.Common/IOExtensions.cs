@@ -61,7 +61,7 @@ namespace Wxv.Swg.Common
             return trim ? result.Trim() : result;
         }
 
-        public static string ReadNullTerminatedString(this Stream stream, Encoding encoding = null, bool trim = true)
+        public static string ReadString(this Stream stream, Encoding encoding = null, bool trim = true)
         {
             encoding = encoding ?? Encoding.ASCII;
 
@@ -76,7 +76,16 @@ namespace Wxv.Swg.Common
             if (b < 0)
                 throw new IOException();
 
-            return encoding.GetString(data.ToArray(), 0, count);
+            var result = encoding.GetString(data.ToArray(), 0, count);
+            return trim ? result.Trim() : result;
+        }
+
+        public static IEnumerable<string> ReadStringList(this Stream stream, Encoding encoding = null, bool trim = true)
+        {
+            var result = new List<string>();
+            while (stream.Position < stream.Length)
+                result.Add(ReadString(stream, encoding, trim));
+            return result.ToArray();
         }
     }
 
@@ -116,18 +125,29 @@ namespace Wxv.Swg.Common
             return BitConverter.ToSingle(data, startIndex);
         }
 
-        public static string ReadString(this byte[] data, int startIndex = 0, Encoding encoding = null)
+        private static string ReadStringInternal(this byte[] data, ref int startIndex, Encoding encoding, bool trim)
         {
             encoding = encoding ?? Encoding.ASCII;
 
-            int count = 0;
-            for (int i = startIndex; i < data.Length; i++)
-                if (data[i] == 0)
-                    break;
-                else
-                    count = i + 1;
+            int i;
+            for (i = startIndex; i < data.Length && data[i] != 0; i++) ;
 
-            return encoding.GetString(data, 0, count);
+            var result = encoding.GetString(data, startIndex, i - startIndex);
+            startIndex = i + 1;
+            return trim ? result.Trim() : result;
+        }
+
+        public static string ReadString(this byte[] data, int startIndex = 0, Encoding encoding = null, bool trim = true)
+        {
+            return ReadStringInternal(data, ref startIndex, encoding, trim);
+        }
+
+        public static IEnumerable<string> ReadStringList(this byte[] data, int startIndex = 0, Encoding encoding = null, bool trim = true)
+        {
+            var result = new List<string>();
+            while (startIndex < data.Length)
+                result.Add(ReadStringInternal(data, ref startIndex, encoding, trim));
+            return result.ToArray();
         }
 
         public static Boolean IsText(this byte[] data)

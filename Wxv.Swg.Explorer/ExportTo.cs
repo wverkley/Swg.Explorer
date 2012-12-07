@@ -55,10 +55,18 @@ namespace Wxv.Swg.Explorer
                 if (fte == null)
                     return;
 
-                fte.Converter(tif.Repository, tif.Data, saveDialog.FileName);
+                try
+                {
+                    fte.Converter(tif.Repository, tif.Data, saveDialog.FileName);
 
-                Wxv.Swg.Explorer.Properties.Settings.Default.RepositoryDirectoryName = Path.GetDirectoryName(saveDialog.FileName);
-                Wxv.Swg.Explorer.Properties.Settings.Default.Save();
+                    Wxv.Swg.Explorer.Properties.Settings.Default.RepositoryDirectoryName = Path.GetDirectoryName(saveDialog.FileName);
+                    Wxv.Swg.Explorer.Properties.Settings.Default.Save();
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex);
+                    MessageBox.Show("Error exporting: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
     }

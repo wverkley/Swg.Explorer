@@ -6,9 +6,6 @@ using System.IO;
 
 namespace Wxv.Swg.Common.Files
 {
-    /// <summary>
-    /// Shader file
-    /// </summary>
     public class ShaderFile : ISWGFile
     {
         public ColorS MaterialColorA { get; internal set; }

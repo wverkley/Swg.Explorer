@@ -68,7 +68,7 @@ namespace Wxv.Swg.Common.Files
             using (var nameStream = new MemoryStream(nameData))
             while (nameStream.Position < nameStream.Length)
             {
-                names.Add(nameStream.ReadNullTerminatedString());
+                names.Add(nameStream.ReadString());
             }
 
             var infoList = new List<TREFile.TreInfo>();

@@ -23,10 +23,18 @@ namespace Wxv.Swg.Explorer
                 if (saveDialog.ShowDialog() != DialogResult.OK)
                     return;
 
-                File.WriteAllBytes(saveDialog.FileName, tif.Data);
+                try
+                {
+                    File.WriteAllBytes(saveDialog.FileName, tif.Data);
 
-                Wxv.Swg.Explorer.Properties.Settings.Default.RepositoryDirectoryName = Path.GetDirectoryName(saveDialog.FileName);
-                Wxv.Swg.Explorer.Properties.Settings.Default.Save();
+                    Wxv.Swg.Explorer.Properties.Settings.Default.RepositoryDirectoryName = Path.GetDirectoryName(saveDialog.FileName);
+                    Wxv.Swg.Explorer.Properties.Settings.Default.Save();
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex);
+                    MessageBox.Show("Error saving: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
     }

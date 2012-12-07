@@ -20,7 +20,7 @@ namespace Wxv.Swg.Common.Files
             }
         }
 
-        public IEnumerable<SkeletonFile> Items { get; internal set; }
+        public IEnumerable<SkeletonFileItem> Items { get; internal set; }
         internal SkeletonFile() { }
 
         public override string ToString()

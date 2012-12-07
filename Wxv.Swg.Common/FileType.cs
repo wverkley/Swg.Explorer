@@ -162,7 +162,9 @@ namespace Wxv.Swg.Common
             new FileType { Extension = "sfk", IFFRoot = null,   FileView = FileView.Binary,  Name="SFK File" },
             new FileType { Extension = "sfp", IFFRoot = "FOOT", FileView = FileView.IFF,     Name="SFP File" },
             new FileType { Extension = "sht", IFFRoot = "CSHD", FileView = FileView.IFF,     Name="Shader" },
-            new FileType { Extension = "skt", IFFRoot = "SLOD", FileView = FileView.IFF,     Name="Skeleton" },
+            new FileType { Extension = "skt", IFFRoot = "SLOD", FileView = FileView.IFF,     Name="Skeleton",
+                DebugToString = (data, writer) => new SkeletonFileReader().Load(data).ToString(writer)
+            },
             new FileType { Extension = "snd", IFFRoot = "SD3D", FileView = FileView.IFF,     Name="Sound 3D" },
             new FileType { Extension = "spr", IFFRoot = "QUAD", FileView = FileView.IFF,     Name="SPR File" },
             new FileType { Extension = "ssa", IFFRoot = "APPR", FileView = FileView.IFF,     Name="SSA File" },
