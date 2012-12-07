@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.IO;
 
 using Wxv.Swg.Common;
+using Wxv.Swg.Common.Files;
 
 namespace Wxv.Swg.Explorer.UserControls
 {
@@ -24,9 +25,8 @@ namespace Wxv.Swg.Explorer.UserControls
         {
             base.InitViewer(treInfoFile);
 
-            StringFile stringsFile;
-            using (var stream = new MemoryStream(treInfoFile.Data))
-                stringsFile = StringFile.Load(stream);
+            var stringsFile = new StringFileReader()
+                .Load(treInfoFile.Data);
 
             listView.BeginUpdate();
             listView.Items.Clear();

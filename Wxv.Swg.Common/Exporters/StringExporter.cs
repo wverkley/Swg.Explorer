@@ -2,6 +2,8 @@
 using System.Text;
 using System.IO;
 
+using Wxv.Swg.Common.Files;
+
 namespace Wxv.Swg.Common.Exporters
 {
     public class StringExporter
@@ -16,7 +18,7 @@ namespace Wxv.Swg.Common.Exporters
         public StringExporter(byte[] data)
         {
             using (var memoryStream = new MemoryStream(data))
-                StringFile = StringFile.Load(data);
+                StringFile = new StringFileReader().Load(data);
         }
 
         public void Export(string fileName)

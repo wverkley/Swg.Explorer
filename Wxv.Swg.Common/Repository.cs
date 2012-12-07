@@ -5,6 +5,8 @@ using System.Text;
 using System.IO;
 using System.Runtime.Caching;
 
+using Wxv.Swg.Common.Files;
+
 namespace Wxv.Swg.Common
 {
     public delegate T RepositoryLoadDelegate<T>(string treFileName, string fileName, Stream stream);
@@ -66,7 +68,7 @@ namespace Wxv.Swg.Common
                 {
                     FileName = Path.Combine (baseDirectory, Path.GetFileName(f.FileName)),
                     Stream = f.Stream,
-                    TREFile = TREFile.Load(f.Stream)
+                    TREFile = new TREFileReader().Load(f.Stream)
                 })
                 .ToList();
 

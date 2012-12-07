@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
-namespace Wxv.Swg.Common
+namespace Wxv.Swg.Common.Files
 {
     public static class MeshExtensions
     {

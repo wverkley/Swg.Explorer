@@ -50,7 +50,15 @@
     <Compile Include="Exporters\PngExporter.cs" />
     <Compile Include="CsvUtil.cs" />
     <Compile Include="Exporters\ColladaExporter.cs" />
+    <Compile Include="Files\InteriorLayoutFileReader.cs" />
+    <Compile Include="Files\ShaderFileReader.cs" />
+    <Compile Include="Files\StringFileReader.cs" />
+    <Compile Include="Files\TREFileReader.cs" />
+    <Compile Include="Files\IFFExtentions.cs" />
+    <Compile Include="Files\IFFFileReader.cs" />
     <Compile Include="Files\MeshExtensions.cs" />
+    <Compile Include="Files\MeshFileReader.cs" />
+    <Compile Include="Files\SWGFile.cs" />
     <Compile Include="FileType.cs" />
     <Compile Include="Files\InteriorLayoutFile.cs" />
     <Compile Include="IOExtensions.cs" />

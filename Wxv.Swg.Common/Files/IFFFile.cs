@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
-namespace Wxv.Swg.Common
+namespace Wxv.Swg.Common.Files
 {
-    public sealed class IFFFile
+    public sealed class IFFFile : ISWGFile
     {
-        private const string FormTag = "FORM";
-
         public enum NodeType
         {
             Form = 0,
@@ -52,9 +50,7 @@ namespace Wxv.Swg.Common
 
         public Node Root { get; internal set; }
 
-        internal IFFFile()
-        {
-        }
+        internal IFFFile() { }
 
         public override string ToString()
         {
@@ -64,132 +60,6 @@ namespace Wxv.Swg.Common
         public void ToString(TextWriter writer)
         {
             Root.ToString(writer, 0);
-        }
-
-        private static void LoadFormNode(Stream stream, Node formNode)
-        {
-            var start = stream.Position;
-            var children = new List<Node>();
-
-            while (stream.Position < (start + formNode.Size - 4))
-            {
-                var tag = stream.ReadString(4);
-                var size = stream.ReadInt32BE();
-
-                //Console.WriteLine(tag + " " + size + " " + reader.BaseStream.Position);
-
-                Node child;
-                if (tag.Equals(FormTag))
-                {
-                    var type = stream.ReadString(4);
-                    child = new Node
-                    {
-                        NodeType = IFFFile.NodeType.Form,
-                        Parent = formNode,
-                        Type = type,
-                        Size = size
-                    };
-                    LoadFormNode(stream, child);
-                }
-                else
-                {
-                    child = new Node
-                    {
-                        NodeType = IFFFile.NodeType.Record,
-                        Parent = formNode,
-                        Type = tag,
-                        Size = size,
-                        Data = stream.ReadBytes(size)
-                    };
-                }
-
-                children.Add(child);
-            }
-
-            formNode.Children = children.ToArray();
-        }
-
-        public static IFFFile Load(Stream stream)
-        {
-            var tag = stream.ReadString(4);
-            if (!tag.Equals(FormTag))
-                throw new IOException("IFF File does not contain valid FORM data");
-            var size = stream.ReadInt32BE();
-            var type = Encoding.ASCII.GetString(stream.ReadBytes(4));
-
-            var root = new Node
-            {
-                NodeType = IFFFile.NodeType.Form,
-                Parent = null,
-                Type = type,
-                Size = size
-            };
-            LoadFormNode(stream, root);
-
-            return new IFFFile
-            {
-                Root = root
-            };
-        }
-
-        public static IFFFile Load(string fileName)
-        {
-            using (var stream = File.OpenRead(fileName))
-                return Load(stream);
-        }
-
-        public static IFFFile Load(byte[] data)
-        {
-            using (var stream = new MemoryStream(data))
-                return Load(stream);
-        }
-    }
-
-    public static class IFFFileExtentions
-    {
-        public static IEnumerable<IFFFile.Node> Children(this IEnumerable<IFFFile.Node> nodes, string type = null)
-        {
-            foreach (var node in nodes)
-            {
-                foreach (var child in node.Children(type))
-                {
-                    yield return child;
-                }
-            }
-        }
-
-        public static IEnumerable<IFFFile.Node> Children(this IFFFile.Node node, string type = null)
-        {
-            foreach (var child in node.Children)
-            {
-                if (type == null || string.Equals(type, child.Type, StringComparison.InvariantCultureIgnoreCase))
-                    yield return child;
-            }
-        }
-
-        public static IEnumerable<IFFFile.Node> Descendents(this IEnumerable<IFFFile.Node> nodes, string type = null)
-        {
-            foreach (var node in nodes)
-            {
-                foreach (var descendent in node.Descendents(type))
-                {
-                    yield return descendent;
-                }
-            }
-        }
-
-        public static IEnumerable<IFFFile.Node> Descendents(this IFFFile.Node node, string type = null)
-        {
-            foreach (var child in node.Children)
-            {
-                if (type == null || string.Equals(type, child.Type, StringComparison.InvariantCultureIgnoreCase))
-                    yield return child;
-
-                foreach (var descendent in child.Descendents(type))
-                {
-                    yield return descendent;
-                }
-            }
         }
     }
 }

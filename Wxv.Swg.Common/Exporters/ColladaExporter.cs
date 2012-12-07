@@ -5,6 +5,8 @@ using System.IO;
 using System.Text;
 using System.Xml.Linq;
 
+using Wxv.Swg.Common.Files;
+
 namespace Wxv.Swg.Common.Exporters
 {
     public sealed class ColladaMeshExporter
@@ -32,7 +34,7 @@ namespace Wxv.Swg.Common.Exporters
         }
 
         public ColladaMeshExporter(IRepository repository, byte[] data, ExportDDSToPngFileDelegate exportDDSToPngFile = null)
-            : this (repository, MeshFile.Load(data), exportDDSToPngFile)
+            : this (repository, new MeshFileReader().Load(data), exportDDSToPngFile)
         {
         }
 
@@ -69,7 +71,7 @@ namespace Wxv.Swg.Common.Exporters
                 var meshGeometry = MeshFile.Geometries.ElementAt(i);
                 var shaderFile = Repository.Load<ShaderFile>(
                     meshGeometry.ShaderFileName,
-                    stream => ShaderFile.Load(stream));
+                    stream => new ShaderFileReader().Load(stream));
                 var textureData = Repository.Load<byte[]>(
                     shaderFile.TextureFileName,
                     stream => stream.ReadBytes((int)stream.Length));

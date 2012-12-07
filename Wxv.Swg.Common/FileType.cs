@@ -5,6 +5,7 @@ using System.Text;
 using System.IO;
 
 using Wxv.Swg.Common.Exporters;
+using Wxv.Swg.Common.Files;
 
 namespace Wxv.Swg.Common
 {
@@ -55,7 +56,7 @@ namespace Wxv.Swg.Common
                         Name = "Text",
                         Converter = (repository, data, targetFileName) => 
                         {
-                            var iffFile = IFFFile.Load(data);
+                            var iffFile = new IFFFileReader().Load(data);
                             using (var writer = File.CreateText(targetFileName))
                                 iffFile.ToString(writer);
                         }
@@ -128,7 +129,7 @@ namespace Wxv.Swg.Common
             new FileType { Extension = "inc", IFFRoot = null,   FileView = FileView.Text,    Name="Includes" },
             new FileType { Extension = "lat", IFFRoot = "LATT", FileView = FileView.IFF,     Name="LAT File" },
             new FileType { Extension = "lay", IFFRoot = "SGRP", FileView = FileView.IFF,     Name="LAY File" },
-            new FileType { Extension = "lmg", IFFRoot = "MLOD", FileView = FileView.IFF,     Name="LMG File" },
+            new FileType { Extension = "lmg", IFFRoot = "MLOD", FileView = FileView.IFF,     Name="Mesh Level of Detail" },
             new FileType { Extension = "lod", IFFRoot = "DTLA", FileView = FileView.IFF,     Name="Level of Detail" },
             new FileType { Extension = "lsb", IFFRoot = "LSAT", FileView = FileView.IFF,     Name="LSB File" },
             new FileType { Extension = "ltn", IFFRoot = "LEFX", FileView = FileView.IFF,     Name="LTN File" },

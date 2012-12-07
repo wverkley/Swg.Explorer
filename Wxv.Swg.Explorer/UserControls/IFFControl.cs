@@ -10,6 +10,7 @@ using System.IO;
 using Be.Windows.Forms;
 
 using Wxv.Swg.Common;
+using Wxv.Swg.Common.Files;
 
 namespace Wxv.Swg.Explorer.UserControls
 {
@@ -27,8 +28,7 @@ namespace Wxv.Swg.Explorer.UserControls
         {
             base.InitViewer(treInfoFile);
 
-            using (var stream = new MemoryStream(treInfoFile.Data))
-                IFFFile = IFFFile.Load(stream);
+            IFFFile = new IFFFileReader().Load(treInfoFile.Data);
 
             RefreshTreeView();
         }
@@ -64,7 +64,7 @@ namespace Wxv.Swg.Explorer.UserControls
             node.Tag = item;
             node.SelectedImageIndex 
                 = node.ImageIndex 
-                = item.NodeType == Common.IFFFile.NodeType.Form ? 0 : 1;
+                = item.NodeType == IFFFile.NodeType.Form ? 0 : 1;
             
             parentNodes.Add(node);
             foreach (var childItem in item.Children)

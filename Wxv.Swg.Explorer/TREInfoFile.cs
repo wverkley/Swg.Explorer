@@ -5,6 +5,7 @@ using System.Text;
 using System.IO;
 
 using Wxv.Swg.Common;
+using Wxv.Swg.Common.Files;
 
 namespace Wxv.Swg.Explorer
 {
