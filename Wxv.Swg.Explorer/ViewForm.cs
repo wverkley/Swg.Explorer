@@ -68,6 +68,9 @@ namespace Wxv.Swg.Explorer
             if ((TREInfoFile.FileType.FileView & FileView.String) != 0)
                 AddViewerControl<StringControl>("Strings");
 
+            if (TREInfoFile.FileType.DebugToString != null)
+                AddViewerControl<DebugControl>("Debug");
+
             this.ResumeLayout(false);
             this.PerformLayout();
 

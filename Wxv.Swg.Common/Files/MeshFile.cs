@@ -6,9 +6,6 @@ using System.IO;
 
 namespace Wxv.Swg.Common.Files
 {
-    /// <summary>
-    /// Mesh File
-    /// </summary>
     public class MeshFile : ISWGFile
     {
         public class MeshGeometry

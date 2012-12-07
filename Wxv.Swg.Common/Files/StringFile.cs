@@ -6,9 +6,6 @@ using System.IO;
 
 namespace Wxv.Swg.Common.Files
 {
-    /// <summary>
-    /// String file
-    /// </summary>
     public class StringFile : ISWGFile
     {
         public class StringFileItem

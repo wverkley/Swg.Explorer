@@ -85,8 +85,9 @@ namespace Wxv.Swg.Common
             var result = All.FirstOrDefault(fve => fve.FileView == fileView);
             return result != null ? result.Exporters : FileTypeExporter.EmptyList;
         }
-
     }
+
+    public delegate void DebugToStringDelgate(byte[] data, TextWriter writer);
 
     public sealed class FileType
     {
@@ -94,11 +95,14 @@ namespace Wxv.Swg.Common
         public string IFFRoot { get; private set; }
         public string Name { get; private set; }
         public FileView FileView { get; private set; }
+
         private IEnumerable<FileTypeExporter> FileTypeExporters { get; set; }
         public IEnumerable<FileTypeExporter> Exporters
         {
             get { return FileTypeExporters.Union(FileViewExporter.FromFileView(FileView)); }
         }
+
+        public DebugToStringDelgate DebugToString { get; private set; }
 
         private FileType() 
         { 
@@ -133,7 +137,9 @@ namespace Wxv.Swg.Common
             new FileType { Extension = "lod", IFFRoot = "DTLA", FileView = FileView.IFF,     Name="Level of Detail" },
             new FileType { Extension = "lsb", IFFRoot = "LSAT", FileView = FileView.IFF,     Name="LSB File" },
             new FileType { Extension = "ltn", IFFRoot = "LEFX", FileView = FileView.IFF,     Name="LTN File" },
-            new FileType { Extension = "mgn", IFFRoot = "SKMG", FileView = FileView.IFF,     Name="Dynamic Mesh" },
+            new FileType { Extension = "mgn", IFFRoot = "SKMG", FileView = FileView.IFF,     Name="Dynamic Mesh",
+                DebugToString = (data, writer) => new DynamicMeshFileReader().Load(data).ToString(writer)
+            },
             new FileType { Extension = "mkr", IFFRoot = "MKAT", FileView = FileView.IFF,     Name="MKR File" },
             new FileType { Extension = "mp3", IFFRoot = null,   FileView = FileView.Media,   Name="Music" },
             new FileType { Extension = "msh", IFFRoot = "MESH", FileView = FileView.IFF,     Name="Static Mesh",
@@ -144,7 +150,9 @@ namespace Wxv.Swg.Common
                         Name = "Collada",
                         Converter = (repository, data, targetFileName) => new ColladaMeshExporter(repository, data).Export(targetFileName)
                     }
-                }},
+                },
+                DebugToString = (data, writer) => new MeshFileReader().Load(data).ToString(writer)
+            },
             new FileType { Extension = "pal", IFFRoot = null,   FileView = FileView.Binary,  Name="Palette" },
             new FileType { Extension = "pob", IFFRoot = "PRTO", FileView = FileView.IFF,     Name="POB File" },
             new FileType { Extension = "prt", IFFRoot = "PEFT", FileView = FileView.IFF,     Name="Particle Effect" },
