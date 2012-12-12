@@ -16,7 +16,7 @@ namespace Wxv.Swg.Common.Exporters
         public static ExportDDSToPngFileDelegate DefaultExportDDSToPngFileDelegate = null;
 
         private const string TemplateNameSpace = @"http://www.collada.org/2005/11/COLLADASchema";
-        private const string TemplateResourceName = @"Wxv.Swg.Common.Exporters.ColladaExporterTemplate.dae";
+        private const string TemplateResourceName = @"Wxv.Swg.Common.Exporters.ColladaMeshExporter.dae";
 
         public IRepository Repository { get; private set; }
         public MeshFile MeshFile { get; private set; }

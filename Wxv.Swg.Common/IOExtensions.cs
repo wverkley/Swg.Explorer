@@ -80,7 +80,7 @@ namespace Wxv.Swg.Common
             return trim ? result.Trim() : result;
         }
 
-        public static IEnumerable<string> ReadStringList(this Stream stream, Encoding encoding = null, bool trim = true)
+        public static string[] ReadStringList(this Stream stream, Encoding encoding = null, bool trim = true)
         {
             var result = new List<string>();
             while (stream.Position < stream.Length)
@@ -142,7 +142,7 @@ namespace Wxv.Swg.Common
             return ReadStringInternal(data, ref startIndex, encoding, trim);
         }
 
-        public static IEnumerable<string> ReadStringList(this byte[] data, int startIndex = 0, Encoding encoding = null, bool trim = true)
+        public static string[] ReadStringList(this byte[] data, int startIndex = 0, Encoding encoding = null, bool trim = true)
         {
             var result = new List<string>();
             while (startIndex < data.Length)

@@ -34,10 +34,13 @@
             this.treeView = new System.Windows.Forms.TreeView();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.hexBox = new Be.Windows.Forms.HexBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.dataSizeLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
             this.splitContainer.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer
@@ -55,6 +58,7 @@
             // splitContainer.Panel2
             // 
             this.splitContainer.Panel2.Controls.Add(this.hexBox);
+            this.splitContainer.Panel2.Controls.Add(this.panel1);
             this.splitContainer.Size = new System.Drawing.Size(703, 484);
             this.splitContainer.SplitterDistance = 200;
             this.splitContainer.TabIndex = 4;
@@ -90,10 +94,29 @@
             this.hexBox.Name = "hexBox";
             this.hexBox.ReadOnly = true;
             this.hexBox.ShadowSelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(60)))), ((int)(((byte)(188)))), ((int)(((byte)(255)))));
-            this.hexBox.Size = new System.Drawing.Size(499, 484);
+            this.hexBox.Size = new System.Drawing.Size(499, 462);
             this.hexBox.StringViewVisible = true;
             this.hexBox.TabIndex = 2;
             this.hexBox.VScrollBarVisible = true;
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.SystemColors.Window;
+            this.panel1.Controls.Add(this.dataSizeLabel);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel1.Location = new System.Drawing.Point(0, 462);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(499, 22);
+            this.panel1.TabIndex = 3;
+            // 
+            // dataSizeLabel
+            // 
+            this.dataSizeLabel.AutoSize = true;
+            this.dataSizeLabel.Location = new System.Drawing.Point(1, 3);
+            this.dataSizeLabel.Name = "dataSizeLabel";
+            this.dataSizeLabel.Size = new System.Drawing.Size(74, 13);
+            this.dataSizeLabel.TabIndex = 0;
+            this.dataSizeLabel.Text = "dataSizeLabel";
             // 
             // IFFControl
             // 
@@ -107,6 +130,8 @@
             this.splitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
             this.splitContainer.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -117,5 +142,7 @@
         private System.Windows.Forms.TreeView treeView;
         private Be.Windows.Forms.HexBox hexBox;
         private System.Windows.Forms.ImageList imageList;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label dataSizeLabel;
     }
 }

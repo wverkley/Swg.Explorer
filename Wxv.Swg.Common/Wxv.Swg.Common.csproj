@@ -46,10 +46,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\Color.cs" />
+    <Compile Include="Data\Quaternion.cs" />
+    <Compile Include="Data\Matrix.cs" />
+    <Compile Include="Data\TextureCoord.cs" />
+    <Compile Include="Exporters\ColladaSkeletonExporter.cs" />
     <Compile Include="Exporters\StringExporter.cs" />
     <Compile Include="Exporters\PngExporter.cs" />
     <Compile Include="CsvUtil.cs" />
-    <Compile Include="Exporters\ColladaExporter.cs" />
+    <Compile Include="Exporters\ColladaMeshExporter.cs" />
     <Compile Include="Files\SkeletonExtensions.cs" />
     <Compile Include="Files\SkeletonFileReader.cs" />
     <Compile Include="Files\SkeletonFile.cs" />
@@ -77,14 +82,19 @@
     <Compile Include="Files\StringFile.cs" />
     <Compile Include="Files\TREFile.cs" />
     <Compile Include="FileUtilities.cs" />
-    <Compile Include="Common.cs" />
+    <Compile Include="Data\Vector.cs" />
     <Compile Include="XmlToRtfConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ICSharpCode.SharpZipLib.dll" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Exporters\ColladaExporterTemplate.dae">
+    <EmbeddedResource Include="Exporters\ColladaMeshExporter.dae">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Exporters\ColladaSkeletonExporter.dae">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>

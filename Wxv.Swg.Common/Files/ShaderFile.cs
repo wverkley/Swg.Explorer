@@ -8,10 +8,10 @@ namespace Wxv.Swg.Common.Files
 {
     public class ShaderFile : ISWGFile
     {
-        public ColorS MaterialColorA { get; internal set; }
-        public ColorS MaterialColorD { get; internal set; }
-        public ColorS MaterialColorS { get; internal set; }
-        public ColorS MaterialColorE { get; internal set; }
+        public ColorF MaterialColorA { get; internal set; }
+        public ColorF MaterialColorD { get; internal set; }
+        public ColorF MaterialColorS { get; internal set; }
+        public ColorF MaterialColorE { get; internal set; }
         public Single MaterialShininess { get; internal set; }
         public string TextureFileName { get; internal set; }
 

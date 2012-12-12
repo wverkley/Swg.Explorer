@@ -18,14 +18,14 @@ namespace Wxv.Swg.Common.Files
             var materialListNode = materialNode.Children().First().Descendents("MATL").First();
             if (materialListNode.Size != 68) throw new IOException("Expected MATL size to be 68");
 
-            ColorS a,d,s,e;
+            ColorF a,d,s,e;
             Single shininess;
             using (var stream = new MemoryStream(materialListNode.Data))
             {
-                a = ColorS.Load(stream);
-                d = ColorS.Load(stream);
-                s = ColorS.Load(stream);
-                e = ColorS.Load(stream);
+                a = ColorF.Load(stream);
+                d = ColorF.Load(stream);
+                s = ColorF.Load(stream);
+                e = ColorF.Load(stream);
                 shininess = stream.ReadSingle();
             }
 

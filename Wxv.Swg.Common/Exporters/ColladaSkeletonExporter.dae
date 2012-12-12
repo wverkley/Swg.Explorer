@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
+  <asset>
+    <contributor>
+      <author>Wxv</author>
+      <authoring_tool>Wxv.Swg</authoring_tool>
+    </contributor>
+    <up_axis>Y_UP</up_axis>
+  </asset>
+  <library_materials>
+    <material id="Material0" name="Material0">
+      <instance_effect url="#Effect0" />
+    </material>
+  </library_materials>
+  <library_effects>
+    <effect id="Effect0">
+      <profile_COMMON>
+        <technique sid="COMMON">
+          <constant>
+            <transparent opaque="A_ONE">
+              <color>0 0 0 1</color>
+            </transparent>
+            <transparency>
+              <float>1</float>
+            </transparency>
+          </constant>
+        </technique>
+      </profile_COMMON>
+    </effect>
+  </library_effects>
+  <library_geometries>
+    <geometry id="skeleton">
+      <mesh>
+        <source id="skeleton0-positions" name="position">
+          <float_array id="skeleton0-positions-array" count="114"><!--vertex position co-ordinates here (XYZ)--></float_array>
+          <technique_common>
+            <accessor count="3" source="#skeleton0-positions-array" stride="3">
+              <param name="X" type="float" />
+              <param name="Y" type="float" />
+              <param name="Z" type="float" />
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="skeleton0-vertices">
+          <input semantic="POSITION" source="#skeleton0-positions" />
+        </vertices>
+        <lines count="37" material="skeleton0-material">
+          <input offset="0" semantic="VERTEX" source="#skeleton0-vertices" />
+          <p><!--line indexes here--></p>
+        </lines>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_visual_scenes>
+    <visual_scene id="VisualSceneNode">
+      <node name="SketchUp">
+        <instance_geometry url="#skeleton">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="skeleton0-material" target="#Material0" />
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#VisualSceneNode" />
+  </scene>
+</COLLADA>

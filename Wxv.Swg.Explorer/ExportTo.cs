@@ -59,7 +59,7 @@ namespace Wxv.Swg.Explorer
                 {
                     fte.Converter(tif.Repository, tif.Data, saveDialog.FileName);
 
-                    Wxv.Swg.Explorer.Properties.Settings.Default.RepositoryDirectoryName = Path.GetDirectoryName(saveDialog.FileName);
+                    Wxv.Swg.Explorer.Properties.Settings.Default.SaveAsDirectoryName = Path.GetDirectoryName(saveDialog.FileName);
                     Wxv.Swg.Explorer.Properties.Settings.Default.Save();
                 }
                 catch (Exception ex)

@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wxv.Swg.Common", "Wxv.Swg.C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wxv.Swg.Explorer", "Wxv.Swg.Explorer\Wxv.Swg.Explorer.csproj", "{3CB1E810-5795-470D-9E9D-49F3F862C252}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wxv.Swg.Test", "Wxv.Swg.Test\Wxv.Swg.Test.csproj", "{8EE97BCA-194F-4C56-B973-A52FE93537C8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,18 @@ Global
 		{3CB1E810-5795-470D-9E9D-49F3F862C252}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{3CB1E810-5795-470D-9E9D-49F3F862C252}.Release|Windows Phone.ActiveCfg = Release|Any CPU
 		{3CB1E810-5795-470D-9E9D-49F3F862C252}.Release|x86.ActiveCfg = Release|Any CPU
+		{8EE97BCA-194F-4C56-B973-A52FE93537C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EE97BCA-194F-4C56-B973-A52FE93537C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EE97BCA-194F-4C56-B973-A52FE93537C8}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{8EE97BCA-194F-4C56-B973-A52FE93537C8}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{8EE97BCA-194F-4C56-B973-A52FE93537C8}.Debug|Windows Phone.ActiveCfg = Debug|Any CPU
+		{8EE97BCA-194F-4C56-B973-A52FE93537C8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8EE97BCA-194F-4C56-B973-A52FE93537C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EE97BCA-194F-4C56-B973-A52FE93537C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EE97BCA-194F-4C56-B973-A52FE93537C8}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{8EE97BCA-194F-4C56-B973-A52FE93537C8}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{8EE97BCA-194F-4C56-B973-A52FE93537C8}.Release|Windows Phone.ActiveCfg = Release|Any CPU
+		{8EE97BCA-194F-4C56-B973-A52FE93537C8}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

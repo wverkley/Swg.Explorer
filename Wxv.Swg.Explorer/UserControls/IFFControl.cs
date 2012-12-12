@@ -30,6 +30,7 @@ namespace Wxv.Swg.Explorer.UserControls
 
             IFFFile = new IFFFileReader().Load(treInfoFile.Data);
 
+            dataSizeLabel.Text = "";
             RefreshTreeView();
         }
 
@@ -51,10 +52,16 @@ namespace Wxv.Swg.Explorer.UserControls
                 return;
 
             var item = (IFFFile.Node) e.Node.Tag;
-            if (item == null)
-                return;
-
-            hexBox.ByteProvider = new DynamicByteProvider(item.Data);
+            if (item != null)
+            {
+                dataSizeLabel.Text = string.Format("Data Size: {0:N0}", item.Data.Length);
+                hexBox.ByteProvider = new DynamicByteProvider(item.Data);
+            }
+            else
+            {
+                dataSizeLabel.Text = string.Format("Data Size: {0:N0}", 0);
+                hexBox.ByteProvider = new DynamicByteProvider(new byte[] { });
+            }
         }
 
         private TreeNode RefreshTreeView(TreeNodeCollection parentNodes, IFFFile.Node item, bool isRoot)

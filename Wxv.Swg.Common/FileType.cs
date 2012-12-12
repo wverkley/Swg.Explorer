@@ -163,6 +163,14 @@ namespace Wxv.Swg.Common
             new FileType { Extension = "sfp", IFFRoot = "FOOT", FileView = FileView.IFF,     Name="SFP File" },
             new FileType { Extension = "sht", IFFRoot = "CSHD", FileView = FileView.IFF,     Name="Shader" },
             new FileType { Extension = "skt", IFFRoot = "SLOD", FileView = FileView.IFF,     Name="Skeleton",
+                FileTypeExporters = new [] {
+                    new FileTypeExporter
+                    {
+                        Extension = "dae",
+                        Name = "Collada",
+                        Converter = (repository, data, targetFileName) => new ColladaSkeletonExporter(repository, data).Export(targetFileName)
+                    }
+                },
                 DebugToString = (data, writer) => new SkeletonFileReader().Load(data).ToString(writer)
             },
             new FileType { Extension = "snd", IFFRoot = "SD3D", FileView = FileView.IFF,     Name="Sound 3D" },

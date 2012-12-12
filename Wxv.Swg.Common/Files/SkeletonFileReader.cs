@@ -16,22 +16,63 @@ namespace Wxv.Swg.Common.Files
             var skeletonNodes = string.Equals(iffFile.Root.Type, "SKTM", StringComparison.InvariantCultureIgnoreCase)
                 ? new IFFFile.Node[]{ iffFile.Root } 
                 : iffFile.Root.Descendents("SKTM").ToArray();
-            var skeletonItems = new List<SkeletonFile.SkeletonFileItem>();
+            
+            var skeletons = new List<SkeletonFile.Skeleton>();
 
             foreach (var skeletonNode in skeletonNodes)
             {
+                var bonesCount = skeletonNode.Descendents("INFO").First().Data.ReadInt32();
+                
                 var boneNames = skeletonNode.Descendents("NAME").First().Data.ReadStringList();
+                if (boneNames.Count() != bonesCount)
+                    throw new IOException("Invalid # of bone names");
 
-                var skeletonItem = new SkeletonFile.SkeletonFileItem
+                var boneParents = new List<int>();
+                using (var stream = new MemoryStream(skeletonNode.Descendents("PRNT").First().Data))
+                    for (int i = 0; i < bonesCount; i++)
+                        boneParents.Add(stream.ReadInt32());
+
+                var bonePreRotations = new List<Quaternion>();
+                using (var stream = new MemoryStream(skeletonNode.Descendents("RPRE").First().Data))
+                    for (int i = 0; i < bonesCount; i++)
+                        bonePreRotations.Add(Quaternion.Load(stream));
+
+                var bonePostRotations = new List<Quaternion>();
+                using (var stream = new MemoryStream(skeletonNode.Descendents("RPST").First().Data))
+                    for (int i = 0; i < bonesCount; i++)
+                        bonePostRotations.Add(Quaternion.Load(stream));
+
+                var boneOffsets = new List<Vector>();
+                using (var stream = new MemoryStream(skeletonNode.Descendents("BPTR").First().Data))
+                    for (int i = 0; i < bonesCount; i++)
+                        boneOffsets.Add(Vector.Load(stream));
+
+                var bones = new List<SkeletonFile.SkeletonBone>();
+                for (int i = 0; i < bonesCount; i++)
+                    bones.Add(new SkeletonFile.SkeletonBone
+                    {
+                        Name = boneNames[i],
+                        ParentIndex = boneParents[i],
+                        PreRotation = bonePreRotations[i],
+                        PostRotation = bonePostRotations[i],
+                        Offset = boneOffsets[i],
+                    });
+
+                foreach (var bone in bones)
                 {
-                    BoneNames = boneNames
-                };
-                skeletonItems.Add(skeletonItem);
+                    if (bone.ParentIndex >= 0)
+                        bone.Parent = bones.ElementAt(bone.ParentIndex);
+                }
+
+                skeletons.Add(new SkeletonFile.Skeleton
+                {
+                    Bones = bones
+                });
             }
 
             return new SkeletonFile
             {
-                Items = skeletonItems
+                Skeletons = skeletons
             };
         }
 
