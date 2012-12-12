@@ -58,15 +58,13 @@ namespace Wxv.Swg.Common.Files
             {
                 result = Matrix.Identity
                     * Matrix.CreateTranslation(p.Offset)
-                    //* Matrix.Rotation(p.PostRotation)
-                    //* Matrix.Rotation(p.PreRotation)
+                    * Matrix.CreateFromQuaternion(p.PreRotation * p.PostRotation)
                     * result;
             }
 
             result = result
+                //* Matrix.CreateFromQuaternion(skeletonBone.PreRotation * skeletonBone.PostRotation)
                 * Matrix.CreateTranslation(skeletonBone.Offset)
-                //* Matrix.Rotation(skeletonBone.PostRotation)
-                //* Matrix.Rotation(skeletonBone.PreRotation)
                 ;
 
             return result;
