@@ -4,14 +4,16 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
+using Microsoft.Xna.Framework;
+
 namespace Wxv.Swg.Common.Files
 {
     public class ShaderFile : ISWGFile
     {
-        public ColorF MaterialColorA { get; internal set; }
-        public ColorF MaterialColorD { get; internal set; }
-        public ColorF MaterialColorS { get; internal set; }
-        public ColorF MaterialColorE { get; internal set; }
+        public Color MaterialColorA { get; internal set; }
+        public Color MaterialColorD { get; internal set; }
+        public Color MaterialColorS { get; internal set; }
+        public Color MaterialColorE { get; internal set; }
         public Single MaterialShininess { get; internal set; }
         public string TextureFileName { get; internal set; }
 

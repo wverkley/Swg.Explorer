@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
+using Microsoft.Xna;
+using Microsoft.Xna.Framework;
+
 namespace Wxv.Swg.Common.Files
 {
     public class SkeletonFile : ISWGFile
@@ -15,7 +18,7 @@ namespace Wxv.Swg.Common.Files
             public int ParentIndex { get; internal set; }
             public Quaternion PreRotation { get; internal set; }
             public Quaternion PostRotation { get; internal set; }
-            public Vector Offset { get; internal set; }
+            public Vector3 Offset { get; internal set; }
 
             public override string ToString()
             {

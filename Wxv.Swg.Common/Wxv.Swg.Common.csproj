@@ -35,6 +35,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>.\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Xna.Framework.Graphics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -46,10 +48,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\Color.cs" />
-    <Compile Include="Data\Quaternion.cs" />
-    <Compile Include="Data\Matrix.cs" />
-    <Compile Include="Data\TextureCoord.cs" />
     <Compile Include="Exporters\ColladaSkeletonExporter.cs" />
     <Compile Include="Exporters\StringExporter.cs" />
     <Compile Include="Exporters\PngExporter.cs" />
@@ -82,8 +80,8 @@
     <Compile Include="Files\StringFile.cs" />
     <Compile Include="Files\TREFile.cs" />
     <Compile Include="FileUtilities.cs" />
-    <Compile Include="Data\Vector.cs" />
     <Compile Include="XmlToRtfConverter.cs" />
+    <Compile Include="XnaExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ICSharpCode.SharpZipLib.dll" />
@@ -98,6 +96,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

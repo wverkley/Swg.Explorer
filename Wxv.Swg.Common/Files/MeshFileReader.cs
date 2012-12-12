@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
+using Microsoft.Xna.Framework;
+
 namespace Wxv.Swg.Common.Files
 {
     public class MeshFileReader : SWGFileReader<MeshFile>
@@ -50,8 +52,8 @@ namespace Wxv.Swg.Common.Files
                             case 72:
                                 vertex = new MeshFile.MeshVertex
                                 {
-                                    Position = Vector.Load(stream),
-                                    Normal = Vector.Load(stream)
+                                    Position = stream.ReadVector3Single(),
+                                    Normal = stream.ReadVector3Single()
                                 };
                                 vertexPosition = 24;
                                 break;
@@ -62,9 +64,9 @@ namespace Wxv.Swg.Common.Files
                             case 68:
                                 vertex = new MeshFile.MeshVertex
                                 {
-                                    Position = Vector.Load(stream),
-                                    Normal = Vector.Load(stream),
-                                    Color = Color.Load(stream)
+                                    Position = stream.ReadVector3Single(),
+                                    Normal = stream.ReadVector3Single(),
+                                    Color = stream.ReadColorARGBByte()
                                 };
                                 vertexPosition = 28;
                                 break;
@@ -72,9 +74,9 @@ namespace Wxv.Swg.Common.Files
                                 throw new IOException("Invalid mesh geometry");
                         }
 
-                        var textureCoords = new TextureCoord[(bytesPerVertex - vertexPosition) / 8];
+                        var textureCoords = new Vector2[(bytesPerVertex - vertexPosition) / 8];
                         for (int i = 0; i < textureCoords.Length; i++)
-                            textureCoords[i] = TextureCoord.Load(stream);
+                            textureCoords[i] = stream.ReadVector2Single();
                         vertex.TexCoords = textureCoords;
 
                         vertexes.Add(vertex);

@@ -3,23 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-//using Microsoft.Xna;
-//using Microsoft.Xna.Framework;
+using Microsoft.Xna;
+using Microsoft.Xna.Framework;
 
-using Wxv.Swg.Common;
+//using Wxv.Swg.Common;
 
 namespace Wxv.Swg.Test
 {
     public class Program
     {
-        static Matrix TestBoneTransform(Matrix parentMatrix, Quaternion preRotation, Quaternion postRotation, Vector offset)
+        static Matrix TestBoneTransform(Matrix parentMatrix, Quaternion preRotation, Quaternion postRotation, Vector3 offset)
         {
             //var rotation = preRotation * postRotation;
             //var localMatrix = Matrix.Rotation(rotation);
 
             var rotation = postRotation;
 
-            var localMatrix = Matrix.Rotation(preRotation) * Matrix.Rotation(postRotation) * Matrix.Translation(offset);
+            var localMatrix = Matrix.CreateFromQuaternion(preRotation) * Matrix.CreateFromQuaternion(postRotation) * Matrix.CreateTranslation(offset);
 
             var result = localMatrix;
 
@@ -55,26 +55,26 @@ namespace Wxv.Swg.Test
 
             var rootPreRotation = new Quaternion { X = 1, Y = 0, Z = 0, W = 0 };
             var rootPostRotation = new Quaternion { X = 1, Y = 0, Z = 0, W = 0 };
-            var rootOffset = new Vector { X = -0f, Y = -1.002f, Z = 0.054f };
+            var rootOffset = new Vector3 { X = -0f, Y = -1.002f, Z = 0.054f };
 
             var lThighPreRotation = new Quaternion { X = 1, Y = 0, Z = 0, W = 0 };
             var lThighPostRotation = new Quaternion { X = 1, Y = 0, Z = 0, W = 0 };
-            var lThighOffset = new Vector { X = -0.076f, Y = -0.038f, Z = 0.037f };
+            var lThighOffset = new Vector3 { X = -0.076f, Y = -0.038f, Z = 0.037f };
 
             var rThighPreRotation = new Quaternion { X = 1, Y = 0, Z = 0, W = 0 };
             var rThighPostRotation = new Quaternion { X = 0, Y = -1, Z = 0, W = 0 };
-            var rThighOffset = new Vector { X = 0.076f, Y = -0.038f, Z = 0.037f };
+            var rThighOffset = new Vector3 { X = 0.076f, Y = -0.038f, Z = 0.037f };
 
             var rootTransform = TestBoneTransform(Matrix.Identity, rootPreRotation, rootPostRotation, rootOffset);
-            var rootPosition = rootTransform * Vector.Zero;
+            var rootPosition = Vector3.Transform(Vector3.Zero, rootTransform);
             Console.WriteLine("root: {0}->{1}", rootOffset, rootPosition);
 
             var lThighTransform = TestBoneTransform(rootTransform, lThighPreRotation, lThighPostRotation, lThighOffset);
-            var lThighPosition = lThighTransform * Vector.Zero;
+            var lThighPosition = Vector3.Transform(Vector3.Zero, lThighTransform);
             Console.WriteLine("lThigh: {0}->{1}", lThighOffset, lThighPosition);
 
             var rThighTransform = TestBoneTransform(rootTransform, rThighPreRotation, rThighPostRotation, rThighOffset);
-            var rThighPosition = rThighTransform * Vector.Zero;
+            var rThighPosition = Vector3.Transform(Vector3.Zero, rThighTransform);
             Console.WriteLine("rThigh: {0}->{1}", rThighOffset, rThighPosition);
 
         }
@@ -83,14 +83,14 @@ namespace Wxv.Swg.Test
         {
             //Console.WriteLine("Test: {0}", 
             //    //Matrix.Identity
-            //     Matrix.Scale(new Vector { X = 10, Y = 10, Z = 10 })
-            //    * Matrix.Translation(new Vector { X = 1, Y = 2, Z = 3 })
-            //    * Vector.Zero);
+            //     Matrix.Scale(new Vector3 { X = 10, Y = 10, Z = 10 })
+            //    * Matrix.Translation(new Vector3 { X = 1, Y = 2, Z = 3 })
+            //    * Vector3.Zero);
             //Console.WriteLine("Test: {0}",
             //    //Matrix.Identity
-            //    Matrix.Translation(new Vector { X = 1, Y = 2, Z = 3 })
-            //    * Matrix.Scale(new Vector { X = 10, Y = 10, Z = 10 })
-            //    * Vector.Zero);
+            //    Matrix.Translation(new Vector3 { X = 1, Y = 2, Z = 3 })
+            //    * Matrix.Scale(new Vector3 { X = 10, Y = 10, Z = 10 })
+            //    * Vector3.Zero);
 
 
             TestBoneTransform();

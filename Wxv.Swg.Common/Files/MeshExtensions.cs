@@ -24,8 +24,8 @@ namespace Wxv.Swg.Common.Files
         {
             return string.Join(" ", meshGeometry.Vertexes.Select(v =>
                 string.Format("{0:0.######} {1:0.######}", 
-                v.TexCoords.ElementAt(index).U,
-                flipV ? (1.0 - v.TexCoords.ElementAt(index).V) : v.TexCoords.ElementAt(index).V)));
+                v.TexCoords.ElementAt(index).X,
+                flipV ? (1.0 - v.TexCoords.ElementAt(index).Y) : v.TexCoords.ElementAt(index).Y)));
         }
 
         public static string IndexesAsString(this MeshFile.MeshGeometry meshGeometry, bool reverse = false)

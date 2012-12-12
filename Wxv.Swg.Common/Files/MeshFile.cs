@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
+using Microsoft.Xna.Framework;
+
 namespace Wxv.Swg.Common.Files
 {
     public class MeshFile : ISWGFile
@@ -23,10 +25,10 @@ namespace Wxv.Swg.Common.Files
 
         public class MeshVertex
         {
-            public Vector Position { get; internal set; }
-            public Vector Normal { get; internal set; }
+            public Vector3 Position { get; internal set; }
+            public Vector3 Normal { get; internal set; }
             public Color Color { get; internal set; }
-            public IEnumerable<TextureCoord> TexCoords { get; internal set; }
+            public IEnumerable<Vector2> TexCoords { get; internal set; }
             internal MeshVertex() { }
 
             public override string ToString()

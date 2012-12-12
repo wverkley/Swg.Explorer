@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
+using Microsoft.Xna.Framework;
+
 namespace Wxv.Swg.Common.Files
 {
     public class ShaderFileReader : SWGFileReader<ShaderFile>
@@ -18,14 +20,14 @@ namespace Wxv.Swg.Common.Files
             var materialListNode = materialNode.Children().First().Descendents("MATL").First();
             if (materialListNode.Size != 68) throw new IOException("Expected MATL size to be 68");
 
-            ColorF a,d,s,e;
+            Color a,d,s,e;
             Single shininess;
             using (var stream = new MemoryStream(materialListNode.Data))
             {
-                a = ColorF.Load(stream);
-                d = ColorF.Load(stream);
-                s = ColorF.Load(stream);
-                e = ColorF.Load(stream);
+                a = stream.ReadColorARGBSingle();
+                d = stream.ReadColorARGBSingle();
+                s = stream.ReadColorARGBSingle();
+                e = stream.ReadColorARGBSingle();
                 shininess = stream.ReadSingle();
             }
 

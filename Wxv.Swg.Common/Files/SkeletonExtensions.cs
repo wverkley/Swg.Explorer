@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
+using Microsoft.Xna.Framework;
+
 namespace Wxv.Swg.Common.Files
 {
     public static class SkeletonExtensions
@@ -55,14 +57,14 @@ namespace Wxv.Swg.Common.Files
             while ((p = p.Parent) != null)
             {
                 result = Matrix.Identity
-                    * Matrix.Translation(p.Offset)
+                    * Matrix.CreateTranslation(p.Offset)
                     //* Matrix.Rotation(p.PostRotation)
                     //* Matrix.Rotation(p.PreRotation)
                     * result;
             }
 
             result = result
-                * Matrix.Translation(skeletonBone.Offset)
+                * Matrix.CreateTranslation(skeletonBone.Offset)
                 //* Matrix.Rotation(skeletonBone.PostRotation)
                 //* Matrix.Rotation(skeletonBone.PreRotation)
                 ;
@@ -70,9 +72,10 @@ namespace Wxv.Swg.Common.Files
             return result;
         }
 
-        public static Vector Position(this SkeletonFile.SkeletonBone skeletonBone)
+        public static Vector3 Position(this SkeletonFile.SkeletonBone skeletonBone)
         {
-            return TransformMatrix(skeletonBone) * Vector.Zero;
+            var transformMatrix = TransformMatrix(skeletonBone);
+            return Vector3.Transform(Vector3.Zero, transformMatrix);
         }
 
         public static void ToString(this SkeletonFile.SkeletonBone skeletonBone, TextWriter writer)
@@ -103,7 +106,7 @@ namespace Wxv.Swg.Common.Files
             }
         }
 
-        public static IEnumerable<Vector> Positions(this SkeletonFile.Skeleton skeleton)
+        public static IEnumerable<Vector3> Positions(this SkeletonFile.Skeleton skeleton)
         {
             return skeleton.Bones.Select(b => b.Position()).ToArray();
         }

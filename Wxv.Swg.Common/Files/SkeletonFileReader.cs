@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
+using Microsoft.Xna;
+using Microsoft.Xna.Framework;
+
 namespace Wxv.Swg.Common.Files
 {
     public class SkeletonFileReader : SWGFileReader<SkeletonFile>
@@ -35,17 +38,17 @@ namespace Wxv.Swg.Common.Files
                 var bonePreRotations = new List<Quaternion>();
                 using (var stream = new MemoryStream(skeletonNode.Descendents("RPRE").First().Data))
                     for (int i = 0; i < bonesCount; i++)
-                        bonePreRotations.Add(Quaternion.Load(stream));
+                        bonePreRotations.Add(stream.ReadQuaternionSingle());
 
                 var bonePostRotations = new List<Quaternion>();
                 using (var stream = new MemoryStream(skeletonNode.Descendents("RPST").First().Data))
                     for (int i = 0; i < bonesCount; i++)
-                        bonePostRotations.Add(Quaternion.Load(stream));
+                        bonePostRotations.Add(stream.ReadQuaternionSingle());
 
-                var boneOffsets = new List<Vector>();
+                var boneOffsets = new List<Vector3>();
                 using (var stream = new MemoryStream(skeletonNode.Descendents("BPTR").First().Data))
                     for (int i = 0; i < bonesCount; i++)
-                        boneOffsets.Add(Vector.Load(stream));
+                        boneOffsets.Add(stream.ReadVector3Single());
 
                 var bones = new List<SkeletonFile.SkeletonBone>();
                 for (int i = 0; i < bonesCount; i++)
