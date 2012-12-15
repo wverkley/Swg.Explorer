@@ -33,10 +33,10 @@ namespace Wxv.Swg.Common
         {
             return new Quaternion
             {
+                W = stream.ReadSingle(),
                 X = stream.ReadSingle(),
                 Y = stream.ReadSingle(),
                 Z = stream.ReadSingle(),
-                W = stream.ReadSingle()
             };
         }
 
@@ -60,6 +60,26 @@ namespace Wxv.Swg.Common
                 G = (byte) stream.ReadByte(),
                 B = (byte) stream.ReadByte(),
             };
+        }
+
+        public static string ToFormatString(this float f)
+        {
+            return string.Format("{0:0.######}", f).PadRight(9);
+        }
+
+        public static string ToFormatString(this Vector3 v)
+        {
+            return string.Format("{0} {1} {2}", v.X.ToFormatString(), v.Y.ToFormatString(), v.Z.ToFormatString());
+        }
+
+        public static string ToFormatString(this Vector2 v)
+        {
+            return string.Format("{0} {1}", v.X.ToFormatString(), v.Y.ToFormatString());
+        }
+
+        public static string ToFormatString(this Quaternion q)
+        {
+            return string.Format("{0} {1} {2} {3}", q.X.ToFormatString(), q.Y.ToFormatString(), q.Z.ToFormatString(), q.W.ToFormatString());
         }
     }
 }
