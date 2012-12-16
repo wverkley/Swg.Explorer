@@ -10,37 +10,29 @@ namespace Wxv.Swg.Common.Files
 {
     public static class SkeletonExtensions
     {
-        public static Matrix TransformMatrix(this SkeletonFile.SkeletonBone skeletonBone)
+        public static Matrix LocalTransformMatrix(this SkeletonFile.SkeletonBone skeletonBone)
         {
-            var l = new List<Matrix>();
+            if (skeletonBone == null)
+                return Matrix.Identity;
 
-            var p = skeletonBone;
-            while (p != null)
-            {
-                //var m = Matrix.CreateFromQuaternion(p.PreRotation * p.PostRotation);
-                //m.M41 = p.Offset.X;
-                //m.M42 = p.Offset.Y;
-                //m.M43 = p.Offset.Z;
-
-                var matrixPreRotation = Matrix.CreateFromQuaternion(p.PreRotation);
-                var matrixPostRotation = Matrix.CreateFromQuaternion(p.PostRotation);
-                var matrixOffset = Matrix.CreateTranslation(p.Offset);
-                var m = matrixPreRotation * matrixPostRotation * matrixOffset;
-
-                l.Insert(0, m);
-                p = p.Parent;
-            }
-
-            var result = Matrix.Identity;
-            for (int i = 0; i < l.Count; i++)
-                result = l[i] * result;
-
+            var matrixPreRotation = Matrix.CreateFromQuaternion(skeletonBone.PreRotation);
+            var matrixPostRotation = Matrix.CreateFromQuaternion(skeletonBone.PostRotation);
+            var matrixOffset = Matrix.CreateTranslation(skeletonBone.Offset);
+            var result = matrixPreRotation * matrixPostRotation * matrixOffset;
             return result;
+        }
+        
+        public static Matrix GlobalTransformMatrix(this SkeletonFile.SkeletonBone skeletonBone)
+        {
+            if (skeletonBone == null)
+                return Matrix.Identity;
+
+            return LocalTransformMatrix(skeletonBone) * GlobalTransformMatrix(skeletonBone.Parent);
         }
 
         public static Vector3 Position(this SkeletonFile.SkeletonBone skeletonBone, bool flipZ = false)
         {
-            var transformMatrix = TransformMatrix(skeletonBone);
+            var transformMatrix = GlobalTransformMatrix(skeletonBone);
             var result = Vector3.Transform(Vector3.Zero, transformMatrix);
             if (flipZ) result.Z = -result.Z;
             return result;

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
-using Microsoft.Xna;
 using Microsoft.Xna.Framework;
 
 namespace Wxv.Swg.Common.Files

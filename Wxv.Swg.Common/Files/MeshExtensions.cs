@@ -49,6 +49,7 @@ namespace Wxv.Swg.Common.Files
 
         public static void ToString(this MeshFile.MeshGeometry meshGeometry, TextWriter writer)
         {
+            writer.WriteLine("  ShaderFileName:", meshGeometry.ShaderFileName);
             writer.WriteLine("  Vertexes:");
             for (int i = 0; i < meshGeometry.Vertexes.Count(); i++)
                 writer.WriteLine("    {0}: {1}", i, meshGeometry.Vertexes.ElementAt(i));
@@ -67,7 +68,7 @@ namespace Wxv.Swg.Common.Files
             for (int i = 0; i < meshFile.Geometries.Count(); i++)
             {
                 var geometry = meshFile.Geometries.ElementAt(i);
-                writer.WriteLine("{0}: {1}", i, geometry);
+                writer.WriteLine("{0}:", i);
                 ToString(geometry, writer);
             }
         }
