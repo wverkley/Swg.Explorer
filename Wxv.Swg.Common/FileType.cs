@@ -138,6 +138,14 @@ namespace Wxv.Swg.Common
             new FileType { Extension = "lsb", IFFRoot = "LSAT", FileView = FileView.IFF,     Name="LSB File" },
             new FileType { Extension = "ltn", IFFRoot = "LEFX", FileView = FileView.IFF,     Name="LTN File" },
             new FileType { Extension = "mgn", IFFRoot = "SKMG", FileView = FileView.IFF,     Name="Dynamic Mesh",
+                FileTypeExporters = new [] {
+                    new FileTypeExporter
+                    {
+                        Extension = "dae",
+                        Name = "Collada",
+                        Converter = (repository, data, targetFileName) => new ColladaDynamicMeshExporter(repository, data).Export(targetFileName)
+                    }
+                },
                 DebugToString = (data, writer) => new DynamicMeshFileReader().Load(data).ToString(writer)
             },
             new FileType { Extension = "mkr", IFFRoot = "MKAT", FileView = FileView.IFF,     Name="MKR File" },

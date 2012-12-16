@@ -32,20 +32,37 @@ namespace Wxv.Swg.Common.Files
             }
         }
 
+        public class DynamicMeshTriangle
+        {
+            public int Group { get; internal set; }
+            public int Index0 { get; internal set; }
+            public int Index1 { get; internal set; }
+            public int Index2 { get; internal set; }
+
+            public override string ToString()
+            {
+                return string.Format("Group={0}, Index0={1}, Index1={2}, Index2={3}", Group, Index0, Index1, Index2);
+            }
+        }
+
         public class DynamicMeshBlend
         {
+            public DynamicMeshFile Parent { get; internal set; }
+
             public string ShaderFileName;
             public IEnumerable<int> PositionIndexes { get; internal set; }
             public IEnumerable<int> NormalIndexes { get; internal set; }
             public IEnumerable<Vector2> TexCoords { get; internal set; }
+            public IEnumerable<DynamicMeshTriangle> Triangles { get; internal set; }
 
             internal DynamicMeshBlend() { }
 
             public override string ToString()
             {
-                return string.Format("ShaderFileName={0}, PositionIndexes.Count()={1}", 
+                return string.Format("ShaderFileName={0}, PositionIndexes.Count()={1}, Triangles.Count()={2}", 
                     ShaderFileName,
-                    PositionIndexes.Count());
+                    PositionIndexes.Count(),
+                    Triangles.Count());
             }
         }
 

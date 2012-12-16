@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Exporters\ColladaSkeletonExporter.cs" />
+    <Compile Include="Exporters\ColladaDynamicMeshExporter.cs" />
     <Compile Include="Exporters\StringExporter.cs" />
     <Compile Include="Exporters\PngExporter.cs" />
     <Compile Include="CsvUtil.cs" />
@@ -96,7 +97,11 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Exporters\ColladaDynamicMeshExporter.dae">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

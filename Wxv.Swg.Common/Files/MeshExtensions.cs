@@ -28,7 +28,7 @@ namespace Wxv.Swg.Common.Files
                 flipV ? (1.0 - v.TexCoords.ElementAt(index).Y) : v.TexCoords.ElementAt(index).Y)));
         }
 
-        public static string IndexesAsString(this MeshFile.MeshGeometry meshGeometry, bool reverse = false)
+        public static string TriangleIndexesAsString(this MeshFile.MeshGeometry meshGeometry, bool reverse = false)
         {
             if (reverse)
             {

@@ -36,12 +36,62 @@ namespace Wxv.Swg.Common.Files
             }
         }
 
+        public static string PositionsAsString(this DynamicMeshFile.DynamicMeshBlend dynamicMeshBlend, bool flipZ = false)
+        {
+            return string.Join(" ", dynamicMeshBlend.PositionIndexes.Select(pi =>
+            {
+                var p = dynamicMeshBlend.Parent.Vertexes.ElementAt(pi).Position;
+                if (flipZ) p.Z = -p.Z;
+                return p.ToFormatString();
+            }));
+        }
+
+        public static string NormalsAsString(this DynamicMeshFile.DynamicMeshBlend dynamicMeshBlend, bool flipZ = false)
+        {
+            return string.Join(" ", dynamicMeshBlend.NormalIndexes.Select(pi =>
+            {
+                var p = dynamicMeshBlend.Parent.Normals.ElementAt(pi);
+                if (flipZ) p.Z = -p.Z;
+                return p.ToFormatString();
+            }));
+        }
+
+        public static string TexCoordsAsString(this DynamicMeshFile.DynamicMeshBlend dynamicMeshBlend, int index = 0, bool flipV = false)
+        {
+            return string.Join(" ", dynamicMeshBlend.TexCoords.Select(tc =>
+                string.Format("{0:0.######} {1:0.######}",
+                tc.X,
+                flipV ? (1.0 - tc.Y) : tc.Y)));
+        }
+
+        public static string TriangleIndexesAsString(this DynamicMeshFile.DynamicMeshBlend dynamicMeshBlend, bool reverse = false)
+        {
+            var result = new List<int>();
+            foreach (var triangle in dynamicMeshBlend.Triangles)
+                if (reverse)
+                    result.AddRange(new[]
+                    {
+                        triangle.Index2,
+                        triangle.Index1,
+                        triangle.Index0
+                    });
+                else
+                    result.AddRange(new[]
+                    {
+                        triangle.Index0,
+                        triangle.Index1,
+                        triangle.Index2
+                    });
+            return string.Join(" ", result.Select(i => string.Format("{0}", i)));
+        }
+
         public static void ToString(this DynamicMeshFile.DynamicMeshBlend dynamicMeshBlend, TextWriter writer)
         {
             writer.WriteLine("  ShaderFileName: {0}", dynamicMeshBlend.ShaderFileName);
             writer.WriteLine("  PositionIndexes.Count(): {0}", dynamicMeshBlend.PositionIndexes.Count());
             writer.WriteLine("  NormalIndexes.Count(): {0}", dynamicMeshBlend.NormalIndexes.Count());
             writer.WriteLine("  TexCoords.Count(): {0}", dynamicMeshBlend.TexCoords.Count());
+            writer.WriteLine("  Triangles.Count(): {0}", dynamicMeshBlend.Triangles.Count());
         }
 
         public static void ToString(this DynamicMeshFile dynamicMeshFile, TextWriter writer)

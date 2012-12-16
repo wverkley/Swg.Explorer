@@ -9,7 +9,7 @@ using Wxv.Swg.Common.Files;
 
 namespace Wxv.Swg.Common.Exporters
 {
-    public sealed class ColladaMeshExporter
+    public sealed class ColladaDynamicMeshExporter
     {
         public delegate void ExportDDSToPngFileDelegate(byte[] ddsData, string pngFileName);
 
@@ -19,22 +19,22 @@ namespace Wxv.Swg.Common.Exporters
         private const string TemplateResourceName = @"Wxv.Swg.Common.Exporters.ColladaMeshExporter.dae";
 
         public IRepository Repository { get; private set; }
-        public MeshFile MeshFile { get; private set; }
+        public DynamicMeshFile DynamicMeshFile { get; private set; }
         public ExportDDSToPngFileDelegate ExportDDSToPngFile { get; private set; }
 
         private XDocument doc;
         private XNamespace TNS;
 
-        public ColladaMeshExporter(IRepository repository, MeshFile meshFile, ExportDDSToPngFileDelegate exportDDSToPngFile = null)
+        public ColladaDynamicMeshExporter(IRepository repository, DynamicMeshFile dynamicMeshFile, ExportDDSToPngFileDelegate exportDDSToPngFile = null)
         {
             Repository = repository;
-            MeshFile = meshFile;
+            DynamicMeshFile = dynamicMeshFile;
             ExportDDSToPngFile = exportDDSToPngFile ?? DefaultExportDDSToPngFileDelegate;
             TNS = TemplateNameSpace;
         }
 
-        public ColladaMeshExporter(IRepository repository, byte[] data, ExportDDSToPngFileDelegate exportDDSToPngFile = null)
-            : this (repository, new MeshFileReader().Load(data), exportDDSToPngFile)
+        public ColladaDynamicMeshExporter(IRepository repository, byte[] data, ExportDDSToPngFileDelegate exportDDSToPngFile = null)
+            : this (repository, new DynamicMeshFileReader().Load(data), exportDDSToPngFile)
         {
         }
 
@@ -66,11 +66,11 @@ namespace Wxv.Swg.Common.Exporters
             
             if (ExportDDSToPngFile == null) return;
 
-            for (int i = 0; i < MeshFile.Geometries.Count(); i++)
+            for (int i = 0; i < DynamicMeshFile.MeshBlends.Count(); i++)
             {
-                var meshGeometry = MeshFile.Geometries.ElementAt(i);
+                var meshBlend = DynamicMeshFile.MeshBlends.ElementAt(i);
                 var shaderFile = Repository.Load<ShaderFile>(
-                    meshGeometry.ShaderFileName,
+                    meshBlend.ShaderFileName,
                     stream => new ShaderFileReader().Load(stream));
                 var textureData = Repository.Load<byte[]>(
                     shaderFile.TextureFileName,
@@ -121,9 +121,9 @@ namespace Wxv.Swg.Common.Exporters
                 .First();
             geometryElement.Remove();
 
-            for (int i = 0; i < MeshFile.Geometries.Count(); i++)
+            for (int i = 0; i < DynamicMeshFile.MeshBlends.Count(); i++)
             {
-                var meshGeometry = MeshFile.Geometries.ElementAt(i);
+                var meshBlend = DynamicMeshFile.MeshBlends.ElementAt(i);
 
                 var geometryCopy = new XElement(geometryElement);
                 geometryCopy.SetAttributeValue("id", "meshGeometry" + i);
@@ -147,10 +147,10 @@ namespace Wxv.Swg.Common.Exporters
                     .Where(n => n.Attributes("name").First().Value == "position")
                     .First();
                 var positionFloatArrayElement = positionElement.Descendants(TNS + "float_array").First();
-                positionFloatArrayElement.Attribute("count").Value = (meshGeometry.Vertexes.Count() * 3).ToString();
-                positionFloatArrayElement.Value = meshGeometry.PositionsAsString(flipZ: true);
+                positionFloatArrayElement.Attribute("count").Value = (meshBlend.PositionIndexes.Count() / 3).ToString();
+                positionFloatArrayElement.Value = meshBlend.PositionsAsString(flipZ: true);
                 var positionFloatAccessorElement = positionElement.Descendants(TNS + "accessor").First();
-                positionFloatAccessorElement.SetAttributeValue("count", meshGeometry.Vertexes.Count().ToString());
+                positionFloatAccessorElement.SetAttributeValue("count", meshBlend.PositionIndexes.Count().ToString());
 
                 // normals
                 var normalElement = geometryCopy
@@ -158,10 +158,10 @@ namespace Wxv.Swg.Common.Exporters
                     .Where(n => n.Attributes("name").First().Value == "normal")
                     .First();
                 var normalFloatArrayElement = normalElement.Descendants(TNS + "float_array").First();
-                normalFloatArrayElement.Attribute("count").Value = (meshGeometry.Vertexes.Count() * 3).ToString();
-                normalFloatArrayElement.Value = meshGeometry.NormalsAsString(flipZ: true);
+                normalFloatArrayElement.Attribute("count").Value = (meshBlend.NormalIndexes.Count() / 3).ToString();
+                normalFloatArrayElement.Value = meshBlend.NormalsAsString(flipZ: true);
                 var normalFloatAccessorElement = normalElement.Descendants(TNS + "accessor").First();
-                normalFloatAccessorElement.SetAttributeValue("count", meshGeometry.Vertexes.Count().ToString());
+                normalFloatAccessorElement.SetAttributeValue("count", meshBlend.NormalIndexes.Count().ToString());
 
                 // map (texture co-ordinates)
                 var mapElement = geometryCopy
@@ -169,18 +169,18 @@ namespace Wxv.Swg.Common.Exporters
                     .Where(n => n.Attributes("name").First().Value == "map")
                     .First();
                 var mapFloatArrayElement = mapElement.Descendants(TNS + "float_array").First();
-                mapFloatArrayElement.Attribute("count").Value = (meshGeometry.Vertexes.Count() * 2).ToString();
-                mapFloatArrayElement.Value = meshGeometry.TexCoordsAsString(flipV: true);
+                mapFloatArrayElement.Attribute("count").Value = (meshBlend.TexCoords.Count() * 2).ToString();
+                mapFloatArrayElement.Value = meshBlend.TexCoordsAsString(flipV: true);
                 var mapFloatAccessorElement = mapElement.Descendants(TNS + "accessor").First();
-                mapFloatAccessorElement.SetAttributeValue("count", meshGeometry.Vertexes.Count().ToString());
+                mapFloatAccessorElement.SetAttributeValue("count", meshBlend.TexCoords.Count().ToString());
 
                 // triangles
                 var trianglesElement = geometryCopy
                     .Descendants(TNS + "triangles")
                     .First();
                 trianglesElement.Attribute("material").Value = "meshGeometry" + i + "-material";
-                trianglesElement.Attribute("count").Value = (meshGeometry.Indexes.Count() / 3).ToString();
-                trianglesElement.Descendants(TNS + "p").First().Value = meshGeometry.TriangleIndexesAsString(reverse: true);
+                trianglesElement.Attribute("count").Value = (meshBlend.Triangles.Count()).ToString();
+                trianglesElement.Descendants(TNS + "p").First().Value = meshBlend.TriangleIndexesAsString (reverse: true);
 
                 libraryGeometriesElement.Add(geometryCopy);
             }
@@ -197,7 +197,7 @@ namespace Wxv.Swg.Common.Exporters
                 .First();
             instanceGeometryElement.Remove();
 
-            for (int i = 0; i < MeshFile.Geometries.Count(); i++)
+            for (int i = 0; i < DynamicMeshFile.MeshBlends.Count(); i++)
             {
                 var instanceGeometryCopy = new XElement(instanceGeometryElement);
                 instanceGeometryCopy.SetAttributeValue("url", "#meshGeometry" + i);

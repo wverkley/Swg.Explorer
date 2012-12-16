@@ -139,17 +139,56 @@ namespace Wxv.Swg.Common.Files
                     }
                 }
 
+                var triangles = new List<DynamicMeshFile.DynamicMeshTriangle>();
+                var triangleNode = psdtNode.Children("PRIM").Children("ITL").FirstOrDefault();
+                var triangleGroupNode = psdtNode.Children("PRIM").Children("OITL").FirstOrDefault();
+                if ((triangleNode == null) == (triangleGroupNode == null))
+                    throw new IOException();
+                if (triangleNode != null)
+                    using (var stream = new MemoryStream(triangleNode.Data))
+                    {
+                        int numTriangles = stream.ReadInt32();
+                        for (int i = 0; i < numTriangles; i++)
+                        {
+                            var triangle = new DynamicMeshFile.DynamicMeshTriangle
+                            {
+                                Group = 0,
+                                Index0 = stream.ReadInt32(),
+                                Index1 = stream.ReadInt32(),
+                                Index2 = stream.ReadInt32(),
+                            };
+                            triangles.Add(triangle);
+                        }
+                    }
+                if (triangleGroupNode != null)
+                    using (var stream = new MemoryStream(triangleNode.Data))
+                    {
+                        int numTriangles = stream.ReadInt32();
+                        for (int i = 0; i < numTriangles; i++)
+                        {
+                            var triangle = new DynamicMeshFile.DynamicMeshTriangle
+                            {
+                                Group = stream.ReadInt32(),
+                                Index0 = stream.ReadInt32(),
+                                Index1 = stream.ReadInt32(),
+                                Index2 = stream.ReadInt32(),
+                            };
+                            triangles.Add(triangle);
+                        }
+                    }
+
                 var meshBlend = new DynamicMeshFile.DynamicMeshBlend
                 {
                     ShaderFileName = shaderFileName,
                     PositionIndexes = positionIndexes.ToArray(),
                     NormalIndexes = normalIndexes.ToArray(),
-                    TexCoords = textureCoords.ToArray()
+                    TexCoords = textureCoords.ToArray(),
+                    Triangles = triangles.ToArray()
                 };
                 meshBlends.Add(meshBlend);
             }
 
-            return new DynamicMeshFile
+            var result = new DynamicMeshFile
             {
                 SkeletonFileNames = skeletonFileNames,
                 BoneNames = boneNames,
@@ -157,6 +196,11 @@ namespace Wxv.Swg.Common.Files
                 Normals = normalsList.ToArray(),
                 MeshBlends = meshBlends.ToArray()
             };
+
+            foreach (var meshBlend in result.MeshBlends)
+                meshBlend.Parent = result;
+
+            return result;
         }
 
         public override DynamicMeshFile Load(Stream stream)
