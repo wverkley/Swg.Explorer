@@ -17,6 +17,7 @@ namespace Wxv.Swg.Explorer
             InitializeComponent();
             this.Text = String.Format("About {0}", AssemblyInfoHelper.AssemblyTitle);
             this.ClientSize = BackgroundImage.Size;
+            versionLabel.Text = AssemblyInfoHelper.AssemblyVersion;
         }
 
         public void EnableSplash()

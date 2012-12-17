@@ -18,14 +18,20 @@ namespace Wxv.Swg.Explorer
             ColladaMeshExporter.DefaultExportDDSToPngFileDelegate =
                 (ddsData, pngFileName) =>
                 {
-                    using (var bitmap = DDSHelper.LoadBitmap(ddsData, withoutTransparency: true))
+                    using (var bitmap = DDSHelper.LoadBitmap(ddsData, System.Drawing.Color.FromArgb(255, 0, 0, 0)))
+                        bitmap.Save(pngFileName);
+                };
+            ColladaDynamicMeshExporter.DefaultExportDDSToPngFileDelegate =
+                (ddsData, pngFileName) =>
+                {
+                    using (var bitmap = DDSHelper.LoadBitmap(ddsData, System.Drawing.Color.FromArgb(255, 0, 0, 0)))
                         bitmap.Save(pngFileName);
                 };
 
             PngExporter.DefaultExportDDSToPngFileDelegate =
                 (ddsData, pngFileName) =>
                 {
-                    using (var bitmap = DDSHelper.LoadBitmap(ddsData, withoutTransparency: false))
+                    using (var bitmap = DDSHelper.LoadBitmap(ddsData, null))
                         bitmap.Save(pngFileName);
                 };
         }

@@ -41,6 +41,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
+            this.versionLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // timer
@@ -169,6 +170,17 @@
             this.label7.TabIndex = 17;
             this.label7.Text = "SharpZipLib by the ic#code team";
             // 
+            // versionLabel
+            // 
+            this.versionLabel.BackColor = System.Drawing.Color.Transparent;
+            this.versionLabel.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.versionLabel.Location = new System.Drawing.Point(442, 235);
+            this.versionLabel.Name = "versionLabel";
+            this.versionLabel.Size = new System.Drawing.Size(140, 20);
+            this.versionLabel.TabIndex = 18;
+            this.versionLabel.Text = "version 0.2.0.0";
+            this.versionLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
             // AboutBox
             // 
             this.AcceptButton = this.okButton;
@@ -177,6 +189,7 @@
             this.BackColor = System.Drawing.SystemColors.Window;
             this.BackgroundImage = global::Wxv.Swg.Explorer.Properties.Resources.Skull4;
             this.ClientSize = new System.Drawing.Size(594, 402);
+            this.Controls.Add(this.versionLabel);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label9);
@@ -217,6 +230,7 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label versionLabel;
 
 
     }

@@ -56,7 +56,7 @@ namespace Wxv.Xna
         }
 
 
-        public static Bitmap LoadBitmap(Stream stream, bool withoutTransparency = false)
+        public static Bitmap LoadBitmap(Stream stream, System.Drawing.Color? backgroundColor = null)
         {
             Bitmap result = null;
 
@@ -76,7 +76,7 @@ namespace Wxv.Xna
 
                 bitmap32 = Bitmap.FromStream(textureStream) as Bitmap;
 
-                if (withoutTransparency)
+                if (backgroundColor.HasValue)
                 {
                     using (bitmap32)
                     {
@@ -84,7 +84,11 @@ namespace Wxv.Xna
                         try
                         {
                             using (var graphics = Graphics.FromImage(result))
+                            {
+                                using (var solidBrush = new SolidBrush(backgroundColor.Value))
+                                    graphics.FillRectangle(solidBrush, 0, 0, width, height);
                                 graphics.DrawImageUnscaled(bitmap32, 0, 0);
+                            }
                         }
                         catch
                         {
@@ -142,10 +146,10 @@ namespace Wxv.Xna
             return result;
         }
 
-        public static Bitmap LoadBitmap(byte[] data, bool withoutTransparency = false)
+        public static Bitmap LoadBitmap(byte[] data, System.Drawing.Color? backgroundColor = null)
         {
             using (var stream = new MemoryStream(data))
-                return LoadBitmap(stream, withoutTransparency);
+                return LoadBitmap(stream, backgroundColor);
         }
 
     }

@@ -62,24 +62,32 @@ namespace Wxv.Swg.Common
             };
         }
 
-        public static string ToFormatString(this float f)
+        public static string ToFormatString(this float f, int pad = 0)
         {
-            return string.Format("{0:0.######}", f).PadRight(9);
+            var result = string.Format("{0:0.######}", f);
+            if (pad > 0) result = result.PadRight(pad);
+            return result;
         }
 
-        public static string ToFormatString(this Vector3 v)
+        public static string ToFormatString(this Vector3 v, int pad = 0)
         {
-            return string.Format("{0} {1} {2}", v.X.ToFormatString(), v.Y.ToFormatString(), v.Z.ToFormatString());
+            var result = string.Format("{0} {1} {2}", v.X.ToFormatString(pad), v.Y.ToFormatString(pad), v.Z.ToFormatString(pad));
+            if (pad > 0) result = result.PadRight(pad);
+            return result;
         }
 
-        public static string ToFormatString(this Vector2 v)
+        public static string ToFormatString(this Vector2 v, int pad = 0)
         {
-            return string.Format("{0} {1}", v.X.ToFormatString(), v.Y.ToFormatString());
+            var result = string.Format("{0} {1}", v.X.ToFormatString(pad), v.Y.ToFormatString(pad));
+            if (pad > 0) result = result.PadRight(pad);
+            return result;
         }
 
-        public static string ToFormatString(this Quaternion q)
+        public static string ToFormatString(this Quaternion q, int pad = 0)
         {
-            return string.Format("{0} {1} {2} {3}", q.X.ToFormatString(), q.Y.ToFormatString(), q.Z.ToFormatString(), q.W.ToFormatString());
+            var result = string.Format("{0} {1} {2} {3}", q.X.ToFormatString(pad), q.Y.ToFormatString(pad), q.Z.ToFormatString(pad), q.W.ToFormatString(pad));
+            if (pad > 0) result = result.PadRight(pad);
+            return result;
         }
     }
 }

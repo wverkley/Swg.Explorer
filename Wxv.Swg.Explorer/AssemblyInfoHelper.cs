@@ -33,7 +33,7 @@ namespace Wxv.Swg.Explorer
                 if (!string.IsNullOrEmpty(_assemblyVersion)) 
                     return _assemblyVersion;
 
-                return _assemblyVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+                return _assemblyVersion = "Version " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
             }
         }
 
