@@ -4,7 +4,7 @@ Swg.Explorer is a a simple archive (TRE file) viewer/explorer for Star Wars Gala
 - View multiple TRE archives in a single combined view
 - View and preview media and data files; including EA Interchange File Format (IFF), and String Table Format (STF)
 - Extract data files
-- Export static meshes to Collada (dae) model files
+- Export meshes (static and dynamic) to Collada (dae) model files
 - Export string files to CSV text files
 
 ### Uses
