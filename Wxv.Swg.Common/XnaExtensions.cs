@@ -69,6 +69,13 @@ namespace Wxv.Swg.Common
             return result;
         }
 
+        public static string ToFormatString(this byte b, int pad = 0)
+        {
+            var result = string.Format("{0:0.######}", b);
+            if (pad > 0) result = result.PadRight(pad);
+            return result;
+        }
+
         public static string ToFormatString(this Vector3 v, int pad = 0)
         {
             var result = string.Format("{0} {1} {2}", v.X.ToFormatString(pad), v.Y.ToFormatString(pad), v.Z.ToFormatString(pad));
@@ -86,6 +93,13 @@ namespace Wxv.Swg.Common
         public static string ToFormatString(this Quaternion q, int pad = 0)
         {
             var result = string.Format("{0} {1} {2} {3}", q.X.ToFormatString(pad), q.Y.ToFormatString(pad), q.Z.ToFormatString(pad), q.W.ToFormatString(pad));
+            if (pad > 0) result = result.PadRight(pad);
+            return result;
+        }
+
+        public static string ToFormatString(this Color c, int pad = 0)
+        {
+            var result = string.Format("{0} {1} {2} {3}", c.A.ToFormatString(pad), c.R.ToFormatString(pad), c.G.ToFormatString(pad), c.B.ToFormatString(pad));
             if (pad > 0) result = result.PadRight(pad);
             return result;
         }

@@ -36,6 +36,7 @@
             this.hexBox = new Be.Windows.Forms.HexBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.dataSizeLabel = new System.Windows.Forms.Label();
+            this.openButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
@@ -94,7 +95,7 @@
             this.hexBox.Name = "hexBox";
             this.hexBox.ReadOnly = true;
             this.hexBox.ShadowSelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(60)))), ((int)(((byte)(188)))), ((int)(((byte)(255)))));
-            this.hexBox.Size = new System.Drawing.Size(499, 462);
+            this.hexBox.Size = new System.Drawing.Size(499, 453);
             this.hexBox.StringViewVisible = true;
             this.hexBox.TabIndex = 2;
             this.hexBox.VScrollBarVisible = true;
@@ -102,11 +103,12 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.Window;
+            this.panel1.Controls.Add(this.openButton);
             this.panel1.Controls.Add(this.dataSizeLabel);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 462);
+            this.panel1.Location = new System.Drawing.Point(0, 453);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(499, 22);
+            this.panel1.Size = new System.Drawing.Size(499, 31);
             this.panel1.TabIndex = 3;
             // 
             // dataSizeLabel
@@ -117,6 +119,18 @@
             this.dataSizeLabel.Size = new System.Drawing.Size(74, 13);
             this.dataSizeLabel.TabIndex = 0;
             this.dataSizeLabel.Text = "dataSizeLabel";
+            // 
+            // openButton
+            // 
+            this.openButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.openButton.Location = new System.Drawing.Point(421, 3);
+            this.openButton.Name = "openButton";
+            this.openButton.Size = new System.Drawing.Size(75, 23);
+            this.openButton.TabIndex = 1;
+            this.openButton.Text = "&Open";
+            this.openButton.UseVisualStyleBackColor = true;
+            this.openButton.Visible = false;
+            this.openButton.Click += new System.EventHandler(this.openButton_Click);
             // 
             // IFFControl
             // 
@@ -144,5 +158,6 @@
         private System.Windows.Forms.ImageList imageList;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label dataSizeLabel;
+        private System.Windows.Forms.Button openButton;
     }
 }

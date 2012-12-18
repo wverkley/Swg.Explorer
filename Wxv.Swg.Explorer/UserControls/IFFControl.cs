@@ -52,15 +52,25 @@ namespace Wxv.Swg.Explorer.UserControls
                 return;
 
             var item = (IFFFile.Node) e.Node.Tag;
-            if (item != null)
-            {
-                dataSizeLabel.Text = string.Format("Data Size: {0:N0}", item.Data.Length);
-                hexBox.ByteProvider = new DynamicByteProvider(item.Data);
-            }
-            else
+            if (item == null)
             {
                 dataSizeLabel.Text = string.Format("Data Size: {0:N0}", 0);
                 hexBox.ByteProvider = new DynamicByteProvider(new byte[] { });
+                openButton.Visible = false;
+                return;
+            }
+
+            dataSizeLabel.Text = string.Format("Data Size: {0:N0}", item.Data.Length);
+            hexBox.ByteProvider = new DynamicByteProvider(item.Data);
+
+            try
+            {
+                string fileName = item.Data.ReadString();
+                openButton.Visible = TREInfoFile.Repository.Exists(fileName);
+            }
+            catch
+            {
+                openButton.Visible = false;
             }
         }
 
@@ -97,6 +107,32 @@ namespace Wxv.Swg.Explorer.UserControls
             finally
             {
                 IsRefreshingData = false;
+            }
+        }
+
+        private void openButton_Click(object sender, EventArgs e)
+        {
+            var node = treeView.SelectedNode;
+            if (node == null)
+                return;
+                
+            var item = (IFFFile.Node)node.Tag;
+            if (item == null)
+                return;
+
+            try
+            {
+                string fileName = item.Data.ReadString();
+                IRepositoryTREFile repositoryTREFile;
+                TREFile.TreInfo treInfo;
+                if (TREInfoFile.Repository.Find(fileName, out repositoryTREFile, out treInfo))
+                {
+                    var treInfoFile = new TREInfoFile(TREInfoFile.Repository, repositoryTREFile.FileName, treInfo);
+                    ViewForm.Show(TREInfoFile.Repository, treInfoFile);
+                }
+            }
+            catch
+            {
             }
         }
 

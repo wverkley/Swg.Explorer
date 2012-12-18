@@ -46,10 +46,10 @@ namespace Wxv.Swg.Common.Files
 
             return new ShaderFile
             {
-                MaterialColorA = a,
-                MaterialColorD = d,
-                MaterialColorS = s,
-                MaterialColorE = e,
+                MaterialColorAmbient = a,
+                MaterialColorDiffuse = d,
+                MaterialColorSpecular = s,
+                MaterialColorEmisive = e,
                 MaterialShininess = shininess,
                 TextureFileName = textureFileName
             };

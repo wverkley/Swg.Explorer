@@ -10,22 +10,12 @@ namespace Wxv.Swg.Common.Files
 {
     public class ShaderFile : ISWGFile
     {
-        public Color MaterialColorA { get; internal set; }
-        public Color MaterialColorD { get; internal set; }
-        public Color MaterialColorS { get; internal set; }
-        public Color MaterialColorE { get; internal set; }
+        public Color MaterialColorAmbient { get; internal set; }
+        public Color MaterialColorDiffuse { get; internal set; }
+        public Color MaterialColorSpecular { get; internal set; }
+        public Color MaterialColorEmisive { get; internal set; }
         public Single MaterialShininess { get; internal set; }
         public string TextureFileName { get; internal set; }
-
-        public void ToString(TextWriter writer)
-        {
-            writer.WriteLine("MaterialColorA: {0}", MaterialColorA);
-            writer.WriteLine("MaterialColorD: {0}", MaterialColorD);
-            writer.WriteLine("MaterialColorS: {0}", MaterialColorS);
-            writer.WriteLine("MaterialColorE: {0}", MaterialColorE);
-            writer.WriteLine("MaterialShininess: {0}", MaterialShininess);
-            writer.WriteLine("TextureFileName: {0}", TextureFileName);
-        }
 
         public override string ToString()
         {
@@ -33,7 +23,5 @@ namespace Wxv.Swg.Common.Files
         }
 
         internal ShaderFile() { }
-
-
     }
 }

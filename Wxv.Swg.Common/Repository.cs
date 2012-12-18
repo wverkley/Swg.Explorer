@@ -23,6 +23,11 @@ namespace Wxv.Swg.Common
     {
         string BaseDirectory { get; }
         IEnumerable<IRepositoryTREFile> Files { get; }
+
+        bool Find(string treFileName, string fileName, out IRepositoryTREFile repositoryTREFile, out TREFile.TreInfo treInfo);
+        bool Find(string fileName, out IRepositoryTREFile repositoryTREFile, out TREFile.TreInfo treInfo);
+        bool Exists(string treFileName, string fileName);
+        bool Exists(string fileName);
         T Load<T>(string treFileName, string fileName, RepositoryLoadDelegate<T> load) where T : class;
         T Load<T>(string treFileName, string fileName, RepositorySimpleLoadDelegate<T> load) where T : class;
         T Load<T>(string fileName, RepositorySimpleLoadDelegate<T> load) where T : class;
@@ -79,34 +84,66 @@ namespace Wxv.Swg.Common
             };
         }
 
-        public T Load<T>(string treFileName, string fileName, RepositoryLoadDelegate<T> load) where T : class
+        public bool Find(string treFileName, string fileName, out IRepositoryTREFile repositoryTREFile, out TREFile.TreInfo treInfo)
         {
-            IRepositoryTREFile treFile = null;
-            if (string.IsNullOrEmpty(treFileName))
-                treFile = Files
+            fileName = fileName.Replace(@"\", @"/").ToLower();
+
+            repositoryTREFile = null;
+            treInfo = null;
+
+            if (!string.IsNullOrEmpty(treFileName))
+                repositoryTREFile = Files
                     .Where(f =>
                         string.Equals(f.FileName, treFileName, StringComparison.InvariantCultureIgnoreCase)
                         && f.TREFile.ContainsInfoFile(fileName))
                     .FirstOrDefault();
-            if (treFile == null)
-                treFile = Files
+            if (repositoryTREFile == null)
+                repositoryTREFile = Files
                     .Where(f => f.TREFile.ContainsInfoFile(fileName))
                     .FirstOrDefault();
 
-            if (treFile == null)
+            if (repositoryTREFile == null)
+                return false;
+
+            treInfo = repositoryTREFile.TREFile[fileName];
+            return true;
+        }
+
+        public bool Find(string fileName, out IRepositoryTREFile repositoryTREFile, out TREFile.TreInfo treInfo)
+        {
+            return Find(null, fileName, out repositoryTREFile, out treInfo);
+        }
+
+        public bool Exists(string treFileName, string fileName)
+        {
+            IRepositoryTREFile repositoryTREFile;
+            TREFile.TreInfo treInfo;
+            return Find(treFileName, fileName, out repositoryTREFile, out treInfo);
+        }
+
+        public bool Exists(string fileName)
+        {
+            return Exists(null, fileName);
+        }
+        
+        public T Load<T>(string treFileName, string fileName, RepositoryLoadDelegate<T> load) where T : class
+        {
+            IRepositoryTREFile repositoryTREFile;
+            TREFile.TreInfo treInfo;
+
+            if (!Find(treFileName, fileName, out repositoryTREFile, out treInfo))
                 return null;
 
-            string fullFileName = typeof(T).FullName + "-" + treFile.FileName + "/" + fileName;
+            string fullFileName = typeof(T).FullName + "-" + repositoryTREFile.FileName + "/" + fileName;
 
-            lock (treFile)
+            lock (repositoryTREFile)
             {
                 var result = _cache[fullFileName] as T;
                 if (result != null)
                     return result;
 
-                var treInfo = treFile.TREFile[fileName];
-                using (var stream = treInfo.Open(treFile.Stream))
-                    result = load(treFile.FileName, treInfo.Name, stream);
+                using (var stream = treInfo.Open(repositoryTREFile.Stream))
+                    result = load(repositoryTREFile.FileName, treInfo.Name, stream);
                 if (result != null)
                     _cache[fullFileName] = result;
                 return result;
@@ -122,6 +159,5 @@ namespace Wxv.Swg.Common
         {
             return Load(null, fileName, load);
         }
-
     }
 }

@@ -169,7 +169,9 @@ namespace Wxv.Swg.Common
             new FileType { Extension = "sat", IFFRoot = "SMAT", FileView = FileView.IFF,     Name="SAT File" },
             new FileType { Extension = "sfk", IFFRoot = null,   FileView = FileView.Binary,  Name="SFK File" },
             new FileType { Extension = "sfp", IFFRoot = "FOOT", FileView = FileView.IFF,     Name="SFP File" },
-            new FileType { Extension = "sht", IFFRoot = "CSHD", FileView = FileView.IFF,     Name="Shader" },
+            new FileType { Extension = "sht", IFFRoot = "CSHD", FileView = FileView.IFF,     Name="Shader",
+                DebugToString = (data, writer) => new ShaderFileReader().Load(data).ToString(writer)
+            },
             new FileType { Extension = "skt", IFFRoot = "SLOD", FileView = FileView.IFF,     Name="Skeleton",
                 FileTypeExporters = new [] {
                     new FileTypeExporter

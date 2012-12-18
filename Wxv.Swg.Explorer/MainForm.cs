@@ -212,9 +212,9 @@ namespace Wxv.Swg.Explorer
                 var tif = FilteredItems.ElementAt(e.ItemIndex);
                 e.Item = new ListViewItem(new string[]
                 {
-                    Path.GetFileName(tif.TreInfo.Name),
+                    Path.GetFileName(tif.Path),
                     tif.FileType.Name,
-                    FileUtilities.SizeToString(tif.TreInfo.DataSize),
+                    FileUtilities.SizeToString(tif.DataSize),
                     Path.GetFileName(tif.TreFileName),
                 })
                 {
@@ -268,12 +268,7 @@ namespace Wxv.Swg.Explorer
                 IEnumerable<TREInfoFile> treInfoFiles;
                 if (localRepository != null)
                     treInfoFiles = localRepository.Files
-                        .SelectMany(tf => tf.TREFile.InfoFiles, (tf, tfif) => new TREInfoFile
-                        {
-                            Repository = localRepository,
-                            TreFileName = tf.FileName,
-                            TreInfo = tfif
-                        })
+                        .SelectMany(tf => tf.TREFile.InfoFiles, (tf, tfif) => new TREInfoFile(localRepository, tf.FileName, tfif))
                         .OrderBy(tif => tif.Path)
                         .ToList();
                 else

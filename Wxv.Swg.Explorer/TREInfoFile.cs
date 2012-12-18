@@ -11,9 +11,26 @@ namespace Wxv.Swg.Explorer
 {
     public class TREInfoFile
     {
-        public IRepository Repository { get; set; }
-        public string TreFileName { get; set; }
-        public TREFile.TreInfo TreInfo { get; set; }
+        public IRepository Repository { get; internal set; }
+        public string TreFileName { get; internal set; }
+        public string Path { get; internal set; }
+        public int DataSize { get; internal set; }
+
+        public TREInfoFile(IRepository repository, string treFileName, string path, int dataSize)
+        {
+            Repository = repository;
+            TreFileName = treFileName;
+            Path = path;
+            DataSize = dataSize;
+        }
+
+        public TREInfoFile(IRepository repository, string treFileName, TREFile.TreInfo treInfo)
+        {
+            Repository = repository;
+            TreFileName = treFileName;
+            Path = treInfo.Name;
+            DataSize = treInfo.DataSize;
+        }
 
         private FileType fileType = null;
         public FileType FileType
@@ -25,8 +42,6 @@ namespace Wxv.Swg.Explorer
                 return fileType;
             }
         }
-
-        public string Path { get { return TreInfo.Name; } }
 
         public byte[] Data
         {
