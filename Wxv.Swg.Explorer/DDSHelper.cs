@@ -3,147 +3,92 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using System.Windows.Forms;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using System.Drawing;
 using System.Drawing.Imaging;
-using AlphaSubmarines;
 using System.Runtime.InteropServices;
+using Microsoft.DirectX;
+using Microsoft.DirectX.Direct3D;
 
-namespace Wxv.Xna
+namespace Wxv.Swg.Explorer
 {
     public static class DDSHelper
     {
-        private static Lazy<Form> LazyForm = new Lazy<Form>(() => new Form());
-        public static Form Form { get { return LazyForm.Value; } }
+        private static Lazy<Form> LazyRenderForm = new Lazy<Form>(() => new Form());
+        public static Form RenderForm { get { return LazyRenderForm.Value; } }
 
-        private static Lazy<GraphicsDevice> LazyGraphicsDevice = new Lazy<GraphicsDevice>(() => new GraphicsDevice(
-            GraphicsAdapter.DefaultAdapter,
-            GraphicsProfile.HiDef,
-            new PresentationParameters
-            {
-                IsFullScreen = false,
-                DeviceWindowHandle = Form.Handle,
-            }));
-        public static GraphicsDevice GraphicsDevice { get { return LazyGraphicsDevice.Value; } }
-
-        public static Texture2D LoadTexture2D(Stream stream)
+        private static Device CreateDevice()
         {
-            Texture2D result;
-            AlphaSubmarines.DDSLib.DDSFromStream(stream, GraphicsDevice, 0, false, out result);
-            return result;
+            var presentParameters = new PresentParameters()
+            {
+                Windowed = true,
+                SwapEffect = SwapEffect.Discard,
+                BackBufferFormat = Format.Unknown,
+                AutoDepthStencilFormat = DepthFormat.D16,
+                EnableAutoDepthStencil = true
+            };
+
+            var deviceCaps = Manager.GetDeviceCaps(Manager.Adapters.Default.Adapter, DeviceType.Hardware).DeviceCaps;
+            var createFlags = ((deviceCaps.SupportsHardwareTransformAndLight) 
+                ? CreateFlags.HardwareVertexProcessing 
+                : CreateFlags.SoftwareVertexProcessing);
+            if (deviceCaps.SupportsPureDevice)
+                createFlags |= CreateFlags.PureDevice;
+
+            var device = new Device(0, DeviceType.Hardware, RenderForm, createFlags, presentParameters);
+            device.RenderState.CullMode = Cull.None;
+            device.RenderState.Lighting = false;
+
+            device.DeviceReset += (sender, e) => 
+            {
+                System.Diagnostics.Debug.WriteLine("DeviceReset");
+                var d = (Device)sender;
+                d.RenderState.CullMode = Cull.None;
+                d.RenderState.Lighting = false;
+            };
+            device.DeviceLost += (sender, e) => { System.Diagnostics.Debug.WriteLine("DeviceLost"); };
+            device.DeviceResizing += (sender, e) => { System.Diagnostics.Debug.WriteLine("DeviceResizing"); };
+            
+            return device;
         }
 
-        public static Texture2D LoadTexture2D(string fileName)
-        {
-            using (var stream = File.OpenRead(fileName))
-            {
-                Texture2D result;
-                AlphaSubmarines.DDSLib.DDSFromStream(stream, GraphicsDevice, 0, false, out result);
-                return result;
-            }
-        }
-
-        public static Texture2D LoadTexture2D(byte[] data)
-        {
-            using (var stream = new MemoryStream(data))
-            {
-                Texture2D result;
-                AlphaSubmarines.DDSLib.DDSFromStream(stream, GraphicsDevice, 0, false, out result);
-                return result;
-            }
-        }
-
+        private static Lazy<Device> LazyDevice = new Lazy<Device>(() => CreateDevice());
+        public static Device Device { get { return LazyDevice.Value; } }
 
         public static Bitmap LoadBitmap(Stream stream, System.Drawing.Color? backgroundColor = null)
         {
-            Bitmap result = null;
-
-            int width, height;
-            Bitmap bitmap32;
-
             using (var textureStream = new MemoryStream())
+            using (var texture = TextureLoader.FromStream(Device, stream))
+            using (var graphicStream = TextureLoader.SaveToStream(ImageFileFormat.Png, texture))
             {
-                using (var texture = LoadTexture2D(stream))
+                graphicStream.Seek(0, SeekOrigin.Begin);
+
+                var bitmap = Bitmap.FromStream(graphicStream) as Bitmap;
+
+                if (!backgroundColor.HasValue)
+                    return bitmap;
+
+
+                using (bitmap)
                 {
-                    width = texture.Width;
-                    height = texture.Height;
-                    texture.SaveAsPng(textureStream, width, height);
-                }
-
-                textureStream.Seek(0, SeekOrigin.Begin);
-
-                bitmap32 = Bitmap.FromStream(textureStream) as Bitmap;
-
-                if (backgroundColor.HasValue)
-                {
-                    using (bitmap32)
+                    var bitmapWithBackground = new Bitmap(bitmap.Width, bitmap.Height, PixelFormat.Format24bppRgb);
+                    try
                     {
-                        result = new Bitmap(width, height, PixelFormat.Format24bppRgb);
-                        try
+                        using (var graphics = Graphics.FromImage(bitmapWithBackground))
                         {
-                            using (var graphics = Graphics.FromImage(result))
-                            {
-                                using (var solidBrush = new SolidBrush(backgroundColor.Value))
-                                    graphics.FillRectangle(solidBrush, 0, 0, width, height);
-                                graphics.DrawImageUnscaled(bitmap32, 0, 0);
-                            }
-                        }
-                        catch
-                        {
-                            result.Dispose();
-                            throw;
+                            using (var solidBrush = new SolidBrush(backgroundColor.Value))
+                                graphics.FillRectangle(solidBrush, 0, 0, bitmap.Width, bitmap.Height);
+                            graphics.DrawImageUnscaled(bitmap, 0, 0);
+
+                            return bitmapWithBackground;
                         }
                     }
-                }
-                else
-                    result = bitmap32;
-            }
-
-            /*
-            if (withoutTransparency)
-            {
-                var bitmapData = result.LockBits(
-                    new System.Drawing.Rectangle(0, 0, width, height),
-                    ImageLockMode.ReadWrite,
-                    PixelFormat.Format32bppArgb);
-                try
-                {
-                    // create byte array to copy pixel values
-                    var pixelData = new byte[width * height * 4];
-                    var iptr = bitmapData.Scan0;
-
-                    // Copy data from pointer to array
-                    Marshal.Copy(bitmapData.Scan0, pixelData, 0, pixelData.Length);
-
-                    // modify the data
-                    byte la = 255, ha = 0;
-                    for (int x = 0; x < width; x++)
-                        for (int y = 0; y < height; y++)
-                        {
-                            int i = ((y * width) + x) * 4;
-                            byte a = pixelData[i + 3];
-                            if (a < la)
-                                la = a;
-                            if (a > ha)
-                                ha = a;
-
-                            pixelData[i + 3] = 255;
-                        }
-                    System.Diagnostics.Debug.WriteLine("la:{0} , ha:{1}", la, ha);
-
-                    // Copy data from byte array to pointer
-                    Marshal.Copy(pixelData, 0, bitmapData.Scan0, pixelData.Length);
-                }
-                finally
-                {
-                    result.UnlockBits(bitmapData);
+                    catch
+                    {
+                        bitmapWithBackground.Dispose();
+                        throw;
+                    }
                 }
             }
-                */
-
-            return result;
         }
 
         public static Bitmap LoadBitmap(byte[] data, System.Drawing.Color? backgroundColor = null)

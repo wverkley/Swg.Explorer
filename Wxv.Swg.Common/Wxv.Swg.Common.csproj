@@ -35,8 +35,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>.\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.Xna.Framework.Graphics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -72,6 +70,22 @@
     <Compile Include="Files\SWGFile.cs" />
     <Compile Include="FileType.cs" />
     <Compile Include="Files\InteriorLayoutFile.cs" />
+    <Compile Include="Microsoft.Xna.Framework\BoundingBox.cs" />
+    <Compile Include="Microsoft.Xna.Framework\BoundingFrustum.cs" />
+    <Compile Include="Microsoft.Xna.Framework\BoundingSphere.cs" />
+    <Compile Include="Microsoft.Xna.Framework\Color.cs" />
+    <Compile Include="Microsoft.Xna.Framework\ContainmentType.cs" />
+    <Compile Include="Microsoft.Xna.Framework\MathHelper.cs" />
+    <Compile Include="Microsoft.Xna.Framework\Matrix.cs" />
+    <Compile Include="Microsoft.Xna.Framework\Plane.cs" />
+    <Compile Include="Microsoft.Xna.Framework\PlaneIntersectionType.cs" />
+    <Compile Include="Microsoft.Xna.Framework\Point.cs" />
+    <Compile Include="Microsoft.Xna.Framework\Quaternion.cs" />
+    <Compile Include="Microsoft.Xna.Framework\Ray.cs" />
+    <Compile Include="Microsoft.Xna.Framework\Rectangle.cs" />
+    <Compile Include="Microsoft.Xna.Framework\Vector2.cs" />
+    <Compile Include="Microsoft.Xna.Framework\Vector3.cs" />
+    <Compile Include="Microsoft.Xna.Framework\Vector4.cs" />
     <Compile Include="IOExtensions.cs" />
     <Compile Include="Files\ShaderFile.cs" />
     <Compile Include="DirectoryTree.cs" />

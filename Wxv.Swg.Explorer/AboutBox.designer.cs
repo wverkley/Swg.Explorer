@@ -42,6 +42,7 @@
             this.label10 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.versionLabel = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // timer
@@ -178,8 +179,19 @@
             this.versionLabel.Name = "versionLabel";
             this.versionLabel.Size = new System.Drawing.Size(140, 20);
             this.versionLabel.TabIndex = 18;
-            this.versionLabel.Text = "version 0.2.0.0";
+            this.versionLabel.Text = "version 0.3.0.0";
             this.versionLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.BackColor = System.Drawing.Color.Transparent;
+            this.label11.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Location = new System.Drawing.Point(281, 365);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(143, 16);
+            this.label11.TabIndex = 19;
+            this.label11.Text = "MonoGame by Xamarin";
             // 
             // AboutBox
             // 
@@ -189,6 +201,7 @@
             this.BackColor = System.Drawing.SystemColors.Window;
             this.BackgroundImage = global::Wxv.Swg.Explorer.Properties.Resources.Skull4;
             this.ClientSize = new System.Drawing.Size(594, 402);
+            this.Controls.Add(this.label11);
             this.Controls.Add(this.versionLabel);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label10);
@@ -231,6 +244,7 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label versionLabel;
+        private System.Windows.Forms.Label label11;
 
 
     }

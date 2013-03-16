@@ -43,6 +43,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -75,13 +76,17 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>.\Be.Windows.Forms.HexBox.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
+    <Reference Include="Microsoft.DirectX, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Program Files\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.dll</HintPath>
+      <HintPath>C:\Windows\Microsoft.NET\DirectX for Managed Code\1.0.2902.0\Microsoft.DirectX.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Xna.Framework.Graphics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
+    <Reference Include="Microsoft.DirectX.Direct3D, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Program Files\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Graphics.dll</HintPath>
+      <HintPath>C:\Windows\Microsoft.NET\DirectX for Managed Code\1.0.2902.0\Microsoft.DirectX.Direct3D.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.DirectX.Direct3DX, Version=1.0.2909.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Windows\Microsoft.NET\DirectX for Managed Code\1.0.2909.0\Microsoft.DirectX.Direct3DX.dll</HintPath>
     </Reference>
     <Reference Include="NAudio, Version=1.6.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -112,7 +117,6 @@
     </Compile>
     <Compile Include="AssemblyInfoHelper.cs" />
     <Compile Include="DDSHelper.cs" />
-    <Compile Include="DDSLib.cs" />
     <Compile Include="ExportTo.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -199,7 +203,10 @@
     <EmbeddedResource Include="ViewForm.resx">
       <DependentUpon>ViewForm.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Be.Windows.Forms.HexBox.dll" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -232,7 +239,6 @@
     <None Include="Swg.Explorer.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Be.Windows.Forms.HexBox.dll" />
     <Content Include="Resources\background.png" />
     <Content Include="Resources\clear.png" />
     <Content Include="Resources\filter.png" />
@@ -243,8 +249,8 @@
     <Content Include="Resources\Player Stop.png" />
     <Content Include="Resources\tree_group.png" />
     <Content Include="Resources\verify.gif" />
-    <Content Include="NAudio.dll" />
-    <Content Include="NAudio.xml" />
+    <None Include="NAudio.dll" />
+    <None Include="NAudio.xml" />
     <Content Include="MainIcon.ico" />
     <None Include="Resources\Skull4.png" />
     <None Include="Resources\icon_info.png" />

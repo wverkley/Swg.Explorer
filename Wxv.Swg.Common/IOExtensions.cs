@@ -87,6 +87,25 @@ namespace Wxv.Swg.Common
                 result.Add(ReadString(stream, encoding, trim));
             return result.ToArray();
         }
+
+        public static void CopyTo(this Stream source, Stream target)
+        {
+            const int bufferSize = 32768;
+
+            if (source == null)
+                throw new ArgumentNullException("source");
+            if (target == null)
+                throw new ArgumentNullException("target");
+
+            var buffer = new byte[bufferSize];
+            int read;
+            int count = 0;
+            while ((read = source.Read(buffer, 0, buffer.Length)) > 0)
+            {
+                target.Write(buffer, 0, read);
+                count += read;
+            }
+        }
     }
 
     public static class ByteArrayExtensions

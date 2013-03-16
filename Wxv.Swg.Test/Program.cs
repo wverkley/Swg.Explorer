@@ -1,19 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+//using System.Linq;
 using System.Text;
 using System.IO;
-using Microsoft.Xna;
-using Microsoft.Xna.Framework;
+using System.Windows.Forms;
 
-using Wxv.Swg.Common;
-using Wxv.Swg.Common.Files;
-using Wxv.Swg.Common.Exporters;
+//using Microsoft.Xna;
+//using Microsoft.Xna.Framework;
+
+using Microsoft.DirectX;
+using Microsoft.DirectX.Direct3D;
+
+//using Wxv.Swg.Common;
+//using Wxv.Swg.Common.Files;
+//using Wxv.Swg.Common.Exporters;
 
 namespace Wxv.Swg.Test
 {
     public class Program
     {
+        /*
         static void TestSkeleton()
         {
             using (var repository = Repository.Load(@"c:\swgemu"))
@@ -55,11 +61,61 @@ namespace Wxv.Swg.Test
             Console.WriteLine("aa * r :  " + Vector3.Transform(Vector3.Zero, m).ToFormatString());
             Console.WriteLine();
         }
+        */
+
+        static void TestDirect3D()
+        {
+            var presentParameters = new PresentParameters()
+            {
+                Windowed = true,
+                SwapEffect = SwapEffect.Discard,
+                BackBufferFormat = Format.Unknown,
+                AutoDepthStencilFormat = DepthFormat.D16,
+                EnableAutoDepthStencil = true
+            };
+
+            var deviceCaps = Manager.GetDeviceCaps(Manager.Adapters.Default.Adapter, DeviceType.Hardware).DeviceCaps;
+            var createFlags = ((deviceCaps.SupportsHardwareTransformAndLight) 
+                ? CreateFlags.HardwareVertexProcessing 
+                : CreateFlags.SoftwareVertexProcessing);
+            if (deviceCaps.SupportsPureDevice)
+                createFlags |= CreateFlags.PureDevice;
+
+            using (var renderForm = new Form())
+            using (var device = new Device(0, DeviceType.Hardware, renderForm, createFlags, presentParameters))
+            {
+                device.RenderState.CullMode = Cull.None;
+                device.RenderState.Lighting = false;
+
+                using (var stream = File.OpenRead("ui_load_tatooine.dds"))
+                using (var texture = TextureLoader.FromStream(device, stream))
+                {
+                    Console.WriteLine("LevelOfDetail: {0}", texture.LevelOfDetail);
+
+                    // TextureLoader.Save("ui_load_tatooine.png", ImageFileFormat.Png, texture);
+
+                    using (var graphicStream = TextureLoader.SaveToStream(ImageFileFormat.Png, texture))
+                    using (var outputStream = File.Create("ui_load_tatooine.png"))
+                    {
+                        graphicStream.CopyTo(outputStream);
+                    }
+                }
+
+                
+                //this.m_Device.DeviceReset += new EventHandler(this.OnResetDevice);
+                //this.m_Device.DeviceLost += new EventHandler(this.OnDeviceLost);
+                //this.m_Device.DeviceResizing += new CancelEventHandler(this.OnDeviceResizing);
+                //OnResetDevice(this.m_Device, null);
+            }
+
+
+        }
 
         static void Main()
         {
-            TestQuat();
-            TestSkeleton();
+            //TestQuat();
+            //TestSkeleton();
+            TestDirect3D();
             Console.WriteLine("done");
             Console.ReadLine();
         }

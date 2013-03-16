@@ -8,7 +8,6 @@ using System.Text;
 using System.Windows.Forms;
 
 using Wxv.Swg.Common;
-using Wxv.Xna;
 
 namespace Wxv.Swg.Explorer.UserControls
 {

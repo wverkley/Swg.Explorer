@@ -88,16 +88,16 @@ namespace Wxv.Swg.Common
             return result;
         }
 
-        public static String SizeToString(Object obj)
+        public static string SizeToString(Object obj)
         {
             try
             {
                 if ((obj != null) && ((obj.GetType() == typeof(Int64)) || (obj.GetType() == typeof(Int32))))
                 {
-                    String[] unitList = new String[] { "bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
+                    string[] unitList = new string[] { "bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
                     Int32 unitIndex = 0;
                     Double byteCount = 0;
-                    String byteSuffix = String.Empty;
+                    string byteSuffix = string.Empty;
                     if (obj.GetType() == typeof(Int32))
                     {
                         byteCount = (Int32)obj;
@@ -113,7 +113,7 @@ namespace Wxv.Swg.Common
                         unitIndex++;
                     }
 
-                    String returnValue = String.Empty;
+                    string returnValue = string.Empty;
                     if ((unitIndex == 0) || (byteCount >= 99.95))
                     {
                         returnValue = byteCount.ToString("F0");
@@ -140,7 +140,7 @@ namespace Wxv.Swg.Common
             }
         }
 
-        public static Boolean IsAlpha(Byte[] data)
+        public static Boolean IsAlpha(byte[] data)
         {
             foreach (Byte character in data)
             {
@@ -152,7 +152,7 @@ namespace Wxv.Swg.Common
             return true;
         }
 
-        public static Boolean IsAlphaList(Byte[] data)
+        public static bool IsAlphaList(byte[] data)
         {
             if ((data == null) || (data.Length == 0))
             {
@@ -192,6 +192,5 @@ namespace Wxv.Swg.Common
                 return signedInteger;
             }
         }
-
     }
 }

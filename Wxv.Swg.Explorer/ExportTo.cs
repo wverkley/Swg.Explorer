@@ -5,7 +5,6 @@ using System.Text;
 using System.IO;
 using System.Windows.Forms;
 
-using Wxv.Xna;
 using Wxv.Swg.Common;
 using Wxv.Swg.Common.Exporters;
 
