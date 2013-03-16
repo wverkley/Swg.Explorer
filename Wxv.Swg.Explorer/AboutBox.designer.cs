@@ -189,9 +189,9 @@
             this.label11.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.Location = new System.Drawing.Point(281, 365);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(143, 16);
+            this.label11.Size = new System.Drawing.Size(75, 16);
             this.label11.TabIndex = 19;
-            this.label11.Text = "MonoGame by Xamarin";
+            this.label11.Text = "MonoGame";
             // 
             // AboutBox
             // 
